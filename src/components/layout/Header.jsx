@@ -3,9 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { FaPlus } from "react-icons/fa";
 import { FaEllipsisV } from "react-icons/fa";
-import { IoChevronDownSharp } from "react-icons/io5";
-import { IoChevronUpSharp } from "react-icons/io5";
-
 import HeaderDropDown from "./HeaderDropDown";
 import ElipsisMenu from "../ui/ElipsisMenu";
 

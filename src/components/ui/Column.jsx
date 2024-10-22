@@ -33,7 +33,7 @@ function Column({ colIndex }) {
       onDragOver={handleOnDragOver}
       className="scrollbar-hide mx-5 min-w-[280px] "
     >
-      <p className=" font-semibold flex  items-center  gap-2 tracking-widest md:tracking-[.2em] text-[#828fa3]">
+      <p className=" font-semibold flex mb-8 items-center  gap-2 tracking-widest md:tracking-[.2em] text-[#828fa3]">
         <div className={`rounded-full w-4 h-4 ${col.name.toLowerCase() === 'todo' && 'bg-red-500'} ${col.name.toLowerCase() === 'in-progress' && 'bg-yellow-500'} ${col.name.toLowerCase() === 'completed' && 'bg-green-500'}`} />
         {col.name} ({col.tasks.length})
       </p>

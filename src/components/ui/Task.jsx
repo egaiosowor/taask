@@ -47,16 +47,17 @@ function Task({ colIndex, taskIndex }) {
   const countdown = calculateCountdown(task.dueDate);
 
   return (
-    <div>
+    <>
       <div
         onClick={() => {
           setIsTaskModalOpen(true);
         }}
         draggable
         onDragStart={handleOnDrag}
-        className=" w-[280px] first:my-5 space-y-2 rounded-lg  bg-white  dark:bg-[#2b2c37] shadow-[#364e7e1a] py-6 px-3 shadow-lg hover:text-[#635fc7] dark:text-white dark:hover:text-[#635fc7] cursor-pointer "
+        className="border-l-8 border-purple-600 w-full first:my-5 space-y-2 rounded-md shadow-md bg-white p-3 hover:text-[#635fc7] cursor-pointer "
       >
-        <p className=" font-bold tracking-wide ">{task.title}</p>
+        <h3 className=" font-bold tracking-wide ">{task.title}</h3>
+        <p className="tracking-wide ">{task.description}</p>
         <div className="flex space-x-1">
           <FaRegClock />
           <p className="text-xs text-gray-500">{countdown}</p>
@@ -72,7 +73,7 @@ function Task({ colIndex, taskIndex }) {
           setIsTaskModalOpen={setIsTaskModalOpen}
         />
       )}
-    </div>
+    </>
   );
 }
 
