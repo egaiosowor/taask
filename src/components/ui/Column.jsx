@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import projectsSlice from "../../redux/projectsSlice";
+
 import Task from "./Task";
 
 function Column({ colIndex }) {
@@ -11,26 +11,8 @@ function Column({ colIndex }) {
   const col = project.columns.find((col, i) => i === colIndex);
 
 
-  const handleOnDrop = (e) => {
-    const { prevColIndex, taskIndex } = JSON.parse(
-      e.dataTransfer.getData("text")
-    );
-
-    if (colIndex !== prevColIndex) {
-      dispatch(
-        projectsSlice.actions.dragTask({ colIndex, prevColIndex, taskIndex })
-      );
-    }
-  };
-
-  const handleOnDragOver = (e) => {
-    e.preventDefault();
-  };
-
   return (
     <div
-      onDrop={handleOnDrop}
-      onDragOver={handleOnDragOver}
       className="scrollbar-hide mx-5 min-w-[280px] "
     >
       <p className=" font-semibold flex mb-8 items-center  gap-2 tracking-widest md:tracking-[.2em] text-[#828fa3]">

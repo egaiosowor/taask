@@ -72,14 +72,6 @@ const projectsSlice = createSlice({
       newCol.tasks.push(task);
       updateProjects(state)
     },
-    dragTask: (state, action) => {
-      const { colIndex, prevColIndex, taskIndex } = action.payload;
-      const project = state.find((project) => project.isActive);
-      const prevCol = project.columns.find((col, i) => i === prevColIndex);
-      const task = prevCol.tasks.splice(taskIndex, 1)[0];
-      project.columns.find((col, i) => i === colIndex).tasks.push(task);
-      updateProjects(state)
-    },
     setSubtaskCompleted: (state, action) => {
       const payload = action.payload;
       const project = state.find((project) => project.isActive);

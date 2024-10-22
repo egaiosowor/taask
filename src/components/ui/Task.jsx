@@ -20,13 +20,6 @@ function Task({ colIndex, taskIndex }) {
     }
   });
 
-  const handleOnDrag = (e) => {
-    e.dataTransfer.setData(
-      "text",
-      JSON.stringify({ taskIndex, prevColIndex: colIndex })
-    );
-  };
-
   const calculateCountdown = (dueDate) => {
     const now = new Date();
     const due = new Date(dueDate);
@@ -52,8 +45,6 @@ function Task({ colIndex, taskIndex }) {
         onClick={() => {
           setIsTaskModalOpen(true);
         }}
-        draggable
-        onDragStart={handleOnDrag}
         className="border-l-8 border-purple-600 w-full first:my-5 space-y-2 rounded-md shadow-md bg-white p-3 hover:text-[#635fc7] cursor-pointer "
       >
         <h3 className=" font-bold tracking-wide ">{task.title}</h3>
