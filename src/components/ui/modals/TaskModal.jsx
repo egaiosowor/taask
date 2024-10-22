@@ -6,7 +6,7 @@ import ElipsisMenu from '../ElipsisMenu';
 import { FaEllipsisV } from "react-icons/fa";
 
 import Subtask from "../Subtask";
-import boardsSlice from "../../../redux/boardsSlice";
+import projectsSlice from "../../../redux/projectsSlice";
 
 import {
   AddEditTaskModal,
@@ -18,9 +18,9 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
   const dispatch = useDispatch();
   const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const boards = useSelector((state) => state.boards);
-  const board = boards.find((board) => board.isActive === true);
-  const columns = board.columns;
+  const projects = useSelector((state) => state.projects);
+  const project = projects.find((project) => project.isActive === true);
+  const columns = project.columns;
   const col = columns.find((col, i) => i === colIndex);
   const task = col.tasks.find((task, i) => i === taskIndex);
   const subtasks = task.subtasks;
@@ -44,7 +44,7 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
       return;
     }
     dispatch(
-      boardsSlice.actions.setTaskStatus({
+      projectsSlice.actions.setTaskStatus({
         taskIndex,
         colIndex,
         newColIndex,
@@ -56,7 +56,7 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
 
   const onDeleteBtnClick = (e) => {
     if (e.target.textContent === "Delete") {
-      dispatch(boardsSlice.actions.deleteTask({ taskIndex, colIndex }));
+      dispatch(projectsSlice.actions.deleteTask({ taskIndex, colIndex }));
       setIsTaskModalOpen(false);
       setIsDeleteModalOpen(false);
     } else {
@@ -145,6 +145,7 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
       </div>
       {isDeleteModalOpen && (
         <DeleteModal
+          setIsDeleteModalOpen={setIsDeleteModalOpen}
           onDeleteBtnClick={onDeleteBtnClick}
           type="task"
           title={task.title}

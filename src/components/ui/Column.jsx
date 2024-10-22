@@ -1,14 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import boardsSlice from "../../redux/boardsSlice";
+import projectsSlice from "../../redux/projectsSlice";
 import Task from "./Task";
 
 function Column({ colIndex }) {
 
   const dispatch = useDispatch();
-  const boards = useSelector((state) => state.boards);
-  const board = boards.find((board) => board.isActive === true);
-  const col = board.columns.find((col, i) => i === colIndex);
+  const projects = useSelector((state) => state.projects);
+  const project = projects.find((project) => project.isActive === true);
+  const col = project.columns.find((col, i) => i === colIndex);
 
 
   const handleOnDrop = (e) => {
@@ -18,7 +18,7 @@ function Column({ colIndex }) {
 
     if (colIndex !== prevColIndex) {
       dispatch(
-        boardsSlice.actions.dragTask({ colIndex, prevColIndex, taskIndex })
+        projectsSlice.actions.dragTask({ colIndex, prevColIndex, taskIndex })
       );
     }
   };

@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import boardsSlice from "./boardsSlice";
+import projectsSlice from "./projectsSlice";
 
 
 const store = configureStore({
   reducer: {
-    boards: boardsSlice.reducer,
+    projects: projectsSlice.reducer,
   }
 })
 

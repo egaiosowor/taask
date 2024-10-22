@@ -1,12 +1,12 @@
 import TaskModal from "./TaskModal";
 import AddEditTaskModal from "./AddEditTaskModal";
-import AddEditBoardModal from './AddEditBoardModal'
+import AddEditProjectModal from './AddEditProjectModal'
 import DeleteModal from "./DeleteModal";
 
 
 export {
     TaskModal,
-    AddEditBoardModal,
+    AddEditProjectModal,
     AddEditTaskModal,
     DeleteModal
 }

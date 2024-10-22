@@ -5,9 +5,9 @@ import { FaRegClock } from "react-icons/fa6";
 
 
 function Task({ colIndex, taskIndex }) {
-  const boards = useSelector((state) => state.boards);
-  const board = boards.find((board) => board.isActive === true);
-  const columns = board.columns;
+  const projects = useSelector((state) => state.projects);
+  const project = projects.find((project) => project.isActive === true);
+  const columns = project.columns;
   const col = columns.find((col, i) => i === colIndex);
   const task = col.tasks.find((task, i) => i === taskIndex);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);

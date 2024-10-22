@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { AddEditBoardModal } from '../ui/modals';
+import { AddEditProjectModal } from '../ui/modals';
 import Column from "../ui/Column";
 import Header from "../layout/Header";
 
 function Home() {
-  const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
 
-  const boards = useSelector((state) => state.boards);
-  const board = boards.find((board) => board.isActive === true);
-  const columns = board.columns;
+  const projects = useSelector((state) => state.projects);
+  const project = projects.find((project) => project.isActive === true);
+  const columns = project.columns;
 
   return (
     <div className="flex-[4] px-2">
       <Header
-        setIsBoardModalOpen={setIsBoardModalOpen}
-        isBoardModalOpen={isBoardModalOpen}
+        setIsProjectModalOpen={setIsProjectModalOpen}
+        isProjectModalOpen={isProjectModalOpen}
       />
 
       {/* Columns Section */}
@@ -26,10 +26,10 @@ function Home() {
           ))}
       </div>
       
-      {isBoardModalOpen && (
-        <AddEditBoardModal
+      {isProjectModalOpen && (
+        <AddEditProjectModal
           type="edit"
-          setIsBoardModalOpen={setIsBoardModalOpen}
+          setIsProjectModalOpen={setIsProjectModalOpen}
         />
       )}
     </div>

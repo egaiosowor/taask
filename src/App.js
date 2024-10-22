@@ -2,26 +2,26 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Sidebar from './components/layout/Sidebar'
 import Home from "./components/container/Home";
-import boardsSlice from "./redux/boardsSlice";
+import projectsSlice from "./redux/projectsSlice";
 
 function App() {
-  const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const dispatch = useDispatch();
-  const boards = useSelector((state) => state.boards);
-  const activeBoard = boards.find((board) => board.isActive);
-  if (!activeBoard && boards.length > 0)
-    dispatch(boardsSlice.actions.setBoardActive({ index: 0 }));
+  const projects = useSelector((state) => state.projects);
+  const activeProject = projects.find((project) => project.isActive);
+  if (!activeProject && projects.length > 0)
+    dispatch(projectsSlice.actions.setProjectActive({ index: 0 }));
 
 
   return (
     <div className="flex">
       <Sidebar
-        setIsBoardModalOpen={setIsBoardModalOpen}
-        isBoardModalOpen={isBoardModalOpen}
+        setIsProjectModalOpen={setIsProjectModalOpen}
+        isProjectModalOpen={isProjectModalOpen}
       />
       <Home
-        setIsBoardModalOpen={setIsBoardModalOpen}
-        isBoardModalOpen={isBoardModalOpen}
+        setIsProjectModalOpen={setIsProjectModalOpen}
+        isProjectModalOpen={isProjectModalOpen}
       />
     </div>
   )

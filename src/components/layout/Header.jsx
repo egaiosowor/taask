@@ -8,33 +8,33 @@ import ElipsisMenu from "../ui/ElipsisMenu";
 
 import {
   AddEditTaskModal,
-  AddEditBoardModal,
+  AddEditProjectModal,
   DeleteModal
 } from '../ui/modals'
 
-import boardsSlice from "../../redux/boardsSlice";
+import projectsSlice from "../../redux/projectsSlice";
 
 
-function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
+function Header({ setIsProjectModalOpen, isProjectModalOpen }) {
   const [openDropdown, setOpenDropdown] = useState(false);
   const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
-  const [boardType, setBoardType] = useState("add");
+  const [projectType, setProjectType] = useState("add");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   
-  const boards = useSelector((state) => state.boards);
-  const board = boards.find((board) => board.isActive);
+  const projects = useSelector((state) => state.projects);
+  const project = projects.find((project) => project.isActive);
 
   const onDropdownClick = () => {
     setOpenDropdown((state) => !state);
     setIsElipsisMenuOpen(false);
-    setBoardType("add");
+    setProjectType("add");
   };
 
   const setOpenEditModal = () => {
-    setIsBoardModalOpen(true);
+    setIsProjectModalOpen(true);
     setIsElipsisMenuOpen(false);
   };
   const setOpenDeleteModal = () => {
@@ -44,8 +44,8 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
 
   const onDeleteBtnClick = (e) => {
     if (e.target.textContent === "Delete") {
-      dispatch(boardsSlice.actions.deleteBoard());
-      dispatch(boardsSlice.actions.setBoardActive({ index: 0 }));
+      dispatch(projectsSlice.actions.deleteBoard());
+      dispatch(projectsSlice.actions.setProjectActive({ index: 0 }));
       setIsDeleteModalOpen(false);
     } else {
       setIsDeleteModalOpen(false);
@@ -57,7 +57,7 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
       <header className="flex justify-between items-center ">
         {/* Left Side  */}
         <h3 className=" truncate max-w-[200px] md:text-2xl text-xl font-bold font-sans  ">
-          {board.name}
+          {project.name}
         </h3>
 
         <div className=" flex space-x-4 items-center md:space-x-6 ">
@@ -72,7 +72,7 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
           </button>
           <FaEllipsisV 
             onClick={() => {
-              setBoardType("edit");
+              setProjectType("edit");
               setOpenDropdown(false)
               setIsElipsisMenuOpen((prevState) => !prevState);
             }}
@@ -80,7 +80,7 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
           />
           {isElipsisMenuOpen && (
             <ElipsisMenu
-              type="Board"
+              type="project"
               setOpenEditModal={setOpenEditModal}
               setOpenDeleteModal={setOpenDeleteModal}
             />
@@ -90,7 +90,7 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
         {openDropdown && (
           <HeaderDropDown
             setOpenDropdown={setOpenDropdown}
-            setIsBoardModalOpen={setIsBoardModalOpen}
+            setIsProjectModalOpen={setIsProjectModalOpen}
           />
         )}
       </header>
@@ -102,18 +102,18 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
         />
       )}
 
-      {isBoardModalOpen && (
-        <AddEditBoardModal
-          setBoardType={setBoardType}
-          type={boardType}
-          setIsBoardModalOpen={setIsBoardModalOpen}
+      {isProjectModalOpen && (
+        <AddEditProjectModal
+          setProjectType={setProjectType}
+          type={projectType}
+          setIsProjectModalOpen={setIsProjectModalOpen}
         />
       )}
       {isDeleteModalOpen && (
         <DeleteModal
           setIsDeleteModalOpen={setIsDeleteModalOpen}
-          type="board"
-          title={board.name}
+          type="project"
+          title={project.name}
           onDeleteBtnClick={onDeleteBtnClick}
         />
       )}

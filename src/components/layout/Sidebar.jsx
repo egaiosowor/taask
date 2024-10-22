@@ -5,14 +5,14 @@ import { MdDashboardCustomize } from "react-icons/md";
 import { FaCirclePlus } from "react-icons/fa6";
 import { FaCheckDouble } from "react-icons/fa6";
 
-import boardsSlice from "../../redux/boardsSlice";
-import { AddEditBoardModal } from "../ui/modals";
+import projectsSlice from "../../redux/projectsSlice";
+import { AddEditProjectModal } from "../ui/modals";
 
 function Sidebar() {
   const dispatch = useDispatch();
-  const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
 
-  const boards = useSelector((state) => state.boards);
+  const projects = useSelector((state) => state.projects);
 
   return (
     <>
@@ -32,33 +32,33 @@ function Sidebar() {
             </span>
             <FaCirclePlus 
               onClick={() => {
-                setIsBoardModalOpen(true);
+                setIsProjectModalOpen(true);
               }}
               className="cursor-pointer text-gray-500"
             />
           </div>
           <div className="space-y-2">
-            {boards.map((board, index) => (
+            {projects.map((project, index) => (
               <div
-                className={`p-2 rounded-lg duration-500 ease-in-out cursor-pointer hover:opacity-80 ${board.isActive &&
+                className={`p-2 rounded-lg duration-500 ease-in-out cursor-pointer hover:opacity-80 ${project.isActive &&
                   " bg-white"
                   } `}
                 key={index}
                 onClick={() => {
-                  dispatch(boardsSlice.actions.setBoardActive({ index }));
+                  dispatch(projectsSlice.actions.setProjectActive({ index }));
                 }}
               >
-                <p className="truncate max-w-[150px] text-gray-500 text-base font-medium ">{board.name}</p>
+                <p className="truncate max-w-[150px] text-gray-500 text-base font-medium ">{project.name}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {isBoardModalOpen && (
-        <AddEditBoardModal
+      {isProjectModalOpen && (
+        <AddEditProjectModal
           type="add"
-          setIsBoardModalOpen={setIsBoardModalOpen}
+          setIsProjectModalOpen={setIsProjectModalOpen}
         />
       )}
     </>

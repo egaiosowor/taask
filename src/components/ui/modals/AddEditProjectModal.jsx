@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
 import { v4 as uuidv4 } from "uuid";
-import boardsSlice from "../../../redux/boardsSlice";
+import projectsSlice from "../../../redux/projectsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-function AddEditBoardModal({ setIsBoardModalOpen, type , }) {
+function AddEditProjectModal({ setIsProjectModalOpen, type , }) {
+  
   const dispatch = useDispatch();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [name, setName] = useState("");
@@ -13,23 +14,21 @@ function AddEditBoardModal({ setIsBoardModalOpen, type , }) {
     { name: "In-Progress", tasks: [], id: uuidv4() },
     { name: "Completed", tasks: [], id: uuidv4() },
   ]);
-  const [isValid, setIsValid] = useState(true);
-  const board = useSelector((state) => state.boards).find(
-    (board) => board.isActive
+  const project = useSelector((state) => state.projects).find(
+    (project) => project.isActive
   );
 
   if (type === "edit" && isFirstLoad) {
     setNewColumns(
-      board.columns.map((col) => {
+      project.columns.map((col) => {
         return { ...col, id: uuidv4() };
       })
     );
-    setName(board.name);
+    setName(project.name);
     setIsFirstLoad(false);
   }
 
   const validate = () => {
-    setIsValid(false);
     if (!name.trim()) {
       return false;
     }
@@ -38,29 +37,15 @@ function AddEditBoardModal({ setIsBoardModalOpen, type , }) {
         return false;
       }
     }
-    setIsValid(true);
     return true;
   };
 
-  const onChange = (id, newValue) => {
-    setNewColumns((prevState) => {
-      const newState = [...prevState];
-      const column = newState.find((col) => col.id === id);
-      column.name = newValue;
-      return newState;
-    });
-  };
-
-  const onDelete = (id) => {
-    setNewColumns((prevState) => prevState.filter((el) => el.id !== id));
-  };
-
   const onSubmit = (type) => {
-    setIsBoardModalOpen(false);
+    setIsProjectModalOpen(false);
     if (type === "add") {
-      dispatch(boardsSlice.actions.addBoard({ name, newColumns }));
+      dispatch(projectsSlice.actions.addBoard({ name, newColumns }));
     } else {
-      dispatch(boardsSlice.actions.editBoard({ name, newColumns }));
+      dispatch(projectsSlice.actions.editBoard({ name, newColumns }));
     }
   };
 
@@ -71,7 +56,7 @@ function AddEditBoardModal({ setIsBoardModalOpen, type , }) {
         if (e.target !== e.currentTarget) {
           return;
         }
-        setIsBoardModalOpen(false);
+        setIsProjectModalOpen(false);
       }}
     >
       <div
@@ -79,20 +64,20 @@ function AddEditBoardModal({ setIsBoardModalOpen, type , }) {
        shadow-md shadow-[#364e7e1a] max-w-md mx-auto my-auto w-full px-8  py-8 rounded-xl"
       >
         <h3 className=" text-lg ">
-          {type === "edit" ? "Edit" : "Add New"} Board
+          {type === "edit" ? "Edit" : "Add New"} project
         </h3>
 
         {/* Task Name */}
 
         <div className="mt-8 flex flex-col space-y-1">
           <label className="text-sm text-gray-800">
-            Board Name
+            project Name
           </label>
           <input
             className=" bg-transparent  px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-1  ring-0 "
             value={name}
             onChange={(e) => setName(e.target.value)}
-            id="board-name-input"
+            id="project-name-input"
           />
         </div>
 
@@ -104,7 +89,7 @@ function AddEditBoardModal({ setIsBoardModalOpen, type , }) {
             }}
             className=" w-full items-center hover:opacity-70 mt-8 relative  text-white bg-black py-2 rounded-lg"
           >
-            {type === "add" ? "Create New Board" : "Save Changes"}
+            {type === "add" ? "Create New project" : "Save Changes"}
           </button>
         </div>
       </div>
@@ -112,4 +97,4 @@ function AddEditBoardModal({ setIsBoardModalOpen, type , }) {
   );
 }
 
-export default AddEditBoardModal;
+export default AddEditProjectModal;

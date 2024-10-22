@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import boardsSlice from "../../../redux/boardsSlice";
+import projectsSlice from "../../../redux/projectsSlice";
 
 import { RxCross2 } from "react-icons/rx";
 import { MdLibraryAdd } from "react-icons/md";
@@ -23,11 +23,11 @@ function AddEditTaskModal({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState(new Date());
-  const board = useSelector((state) => state.boards).find(
-    (board) => board.isActive
+  const project = useSelector((state) => state.projects).find(
+    (project) => project.isActive
   );
 
-  const columns = board.columns;
+  const columns = project.columns;
   const col = columns.find((col, index) => index === prevColIndex);
   const task = col ? col.tasks.find((task, index) => index === taskIndex) : [];
   const [status, setStatus] = useState(columns[prevColIndex].name);
@@ -83,7 +83,7 @@ function AddEditTaskModal({
   const onSubmit = (type) => {
     if (type === "add") {
       dispatch(
-        boardsSlice.actions.addTask({
+        projectsSlice.actions.addTask({
           title,
           description,
           dueDate,
@@ -94,7 +94,7 @@ function AddEditTaskModal({
       );
     } else {
       dispatch(
-        boardsSlice.actions.editTask({
+        projectsSlice.actions.editTask({
           title,
           description,
           dueDate,
