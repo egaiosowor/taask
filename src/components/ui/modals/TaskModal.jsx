@@ -14,15 +14,13 @@ import {
 } from './index'
 
 
-function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
+function TaskModal({ taskIndex, setIsTaskModalOpen }) {
   const dispatch = useDispatch();
   const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const projects = useSelector((state) => state.projects);
   const project = projects.find((project) => project.isActive === true);
-  const columns = project.columns;
-  const col = columns.find((col, i) => i === colIndex);
-  const task = col.tasks.find((task, i) => i === taskIndex);
+  const task = project.tasks.find((task, i) => i === taskIndex);
   const subtasks = task.subtasks;
 
   let completed = 0;
@@ -33,10 +31,8 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
   });
 
   const [status, setStatus] = useState(task.status);
-  const [newColIndex, setNewColIndex] = useState(columns.indexOf(col));
   const onChange = (e) => {
     setStatus(e.target.value);
-    setNewColIndex(e.target.selectedIndex);
   };
 
   const onClose = (e) => {
@@ -46,8 +42,6 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
     dispatch(
       projectsSlice.actions.setTaskStatus({
         taskIndex,
-        colIndex,
-        newColIndex,
         status,
       })
     );
@@ -56,7 +50,7 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
 
   const onDeleteBtnClick = (e) => {
     if (e.target.textContent === "Delete") {
-      dispatch(projectsSlice.actions.deleteTask({ taskIndex, colIndex }));
+      dispatch(projectsSlice.actions.deleteTask({ taskIndex }));
       setIsTaskModalOpen(false);
       setIsDeleteModalOpen(false);
     } else {
@@ -117,7 +111,6 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
               <Subtask
                 index={index}
                 taskIndex={taskIndex}
-                colIndex={colIndex}
                 key={index}
               />
             );
@@ -135,11 +128,15 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
             value={status}
             onChange={onChange}
           >
-            {columns.map((col, index) => (
-              <option className="status-options" key={index}>
-                {col.name}
-              </option>
-            ))}
+            <option className="status-options">
+              to-do
+            </option>
+            <option className="status-options">
+              in-progress
+            </option>
+            <option className="status-options">
+              completed
+            </option>
           </select>
         </div>
       </div>
@@ -158,7 +155,6 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
           setIsTaskModalOpen={setIsTaskModalOpen}
           type="edit"
           taskIndex={taskIndex}
-          prevColIndex={colIndex}
         />
       )}
     </div>

@@ -27,12 +27,6 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen }) {
   const projects = useSelector((state) => state.projects);
   const project = projects.find((project) => project.isActive);
 
-  const onDropdownClick = () => {
-    setOpenDropdown((state) => !state);
-    setIsElipsisMenuOpen(false);
-    setProjectType("add");
-  };
-
   const setOpenEditModal = () => {
     setIsProjectModalOpen(true);
     setIsElipsisMenuOpen(false);

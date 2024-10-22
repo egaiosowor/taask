@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+
 import {TaskModal} from "../ui/modals";
 import { FaRegClock } from "react-icons/fa6";
 
+import { isDue } from "../../utils";
 
-function Task({ colIndex, taskIndex }) {
+
+function Task({ taskIndex }) {
   const projects = useSelector((state) => state.projects);
   const project = projects.find((project) => project.isActive === true);
-  const columns = project.columns;
-  const col = columns.find((col, i) => i === colIndex);
-  const task = col.tasks.find((task, i) => i === taskIndex);
+  const task = project.tasks.find((task, i) => i === taskIndex);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   let completed = 0;
@@ -21,14 +22,12 @@ function Task({ colIndex, taskIndex }) {
   });
 
   const calculateCountdown = (dueDate) => {
-    const now = new Date();
-    const due = new Date(dueDate);
-    const diffInMilliseconds = due - now;
-
-    if (diffInMilliseconds <= 0) {
+    
+    if (isDue(dueDate)) {
       return "Task is overdue";
     }
-
+       
+    const diffInMilliseconds = new Date(dueDate) - new Date()
     const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
     const days = Math.floor(diffInSeconds / (60 * 60 * 24));
     const hours = Math.floor((diffInSeconds % (60 * 60 * 24)) / (60 * 60));
@@ -59,7 +58,6 @@ function Task({ colIndex, taskIndex }) {
       </div>
       {isTaskModalOpen && (
         <TaskModal
-          colIndex={colIndex}
           taskIndex={taskIndex}
           setIsTaskModalOpen={setIsTaskModalOpen}
         />

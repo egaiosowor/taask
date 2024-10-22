@@ -14,12 +14,10 @@ function AddEditTaskModal({
   device,
   setIsTaskModalOpen,
   setIsAddTaskModalOpen,
-  taskIndex,
-  prevColIndex = 0,
+  taskIndex
 }) {
   const dispatch = useDispatch();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
-  const [isValid, setIsValid] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState(new Date());
@@ -27,11 +25,8 @@ function AddEditTaskModal({
     (project) => project.isActive
   );
 
-  const columns = project.columns;
-  const col = columns.find((col, index) => index === prevColIndex);
-  const task = col ? col.tasks.find((task, index) => index === taskIndex) : [];
-  const [status, setStatus] = useState(columns[prevColIndex].name);
-  const [newColIndex, setNewColIndex] = useState(prevColIndex);
+  const task = type === 'edit' ? project.tasks.find((task, index) => index === taskIndex) : [];
+  const [status, setStatus] = useState(task.status);
   const [subtasks, setSubtasks] = useState([
     { title: "", isCompleted: false, id: uuidv4() },
   ]);
@@ -47,21 +42,6 @@ function AddEditTaskModal({
 
   const onChangeStatus = (e) => {
     setStatus(e.target.value);
-    setNewColIndex(e.target.selectedIndex);
-  };
-
-  const validate = () => {
-    setIsValid(false);
-    if (!title.trim()) {
-      return false;
-    }
-    for (let i = 0; i < subtasks.length; i++) {
-      if (!subtasks[i].title.trim()) {
-        return false;
-      }
-    }
-    setIsValid(true);
-    return true;
   };
 
   if (type === "edit" && isFirstLoad) {
@@ -89,7 +69,6 @@ function AddEditTaskModal({
           dueDate,
           subtasks,
           status,
-          newColIndex,
         })
       );
     } else {
@@ -101,8 +80,6 @@ function AddEditTaskModal({
           subtasks,
           status,
           taskIndex,
-          prevColIndex,
-          newColIndex,
         })
       );
     }
@@ -202,9 +179,9 @@ function AddEditTaskModal({
             onChange={onChangeStatus}
             className=" select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0  border-[1px] border-gray-300 focus:outline-[#635fc7] outline-none"
           >
-            {columns.map((column, index) => (
-              <option key={index}>{column.name}</option>
-            ))}
+            <option>to-do</option>
+            <option>in-progress</option>
+            <option>completed</option>
           </select>          
         </div>
 
@@ -224,12 +201,9 @@ function AddEditTaskModal({
           {/* Create task button */}
           <button
             onClick={() => {
-              const isValid = validate();
-              if (isValid) {
-                onSubmit(type);
-                setIsAddTaskModalOpen(false);
-                type === "edit" && setIsTaskModalOpen(false);
-              }
+              onSubmit(type);
+              setIsAddTaskModalOpen(false);
+              type === "edit" && setIsTaskModalOpen(false);
             }}
             className="font-medium w-full items-center text-white bg-black hover:opacity-70 py-2 rounded-lg"
           >

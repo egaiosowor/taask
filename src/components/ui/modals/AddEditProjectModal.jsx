@@ -9,43 +9,23 @@ function AddEditProjectModal({ setIsProjectModalOpen, type , }) {
   const dispatch = useDispatch();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [name, setName] = useState("");
-  const [newColumns, setNewColumns] = useState([
-    { name: "Todo", tasks: [], id: uuidv4() },
-    { name: "In-Progress", tasks: [], id: uuidv4() },
-    { name: "Completed", tasks: [], id: uuidv4() },
-  ]);
+
   const project = useSelector((state) => state.projects).find(
     (project) => project.isActive
   );
 
   if (type === "edit" && isFirstLoad) {
-    setNewColumns(
-      project.columns.map((col) => {
-        return { ...col, id: uuidv4() };
-      })
-    );
     setName(project.name);
     setIsFirstLoad(false);
   }
 
-  const validate = () => {
-    if (!name.trim()) {
-      return false;
-    }
-    for (let i = 0 ; i < newColumns.length ; i++) {
-      if (!newColumns[i].name.trim()) {
-        return false;
-      }
-    }
-    return true;
-  };
 
   const onSubmit = (type) => {
     setIsProjectModalOpen(false);
     if (type === "add") {
-      dispatch(projectsSlice.actions.addBoard({ name, newColumns }));
+      dispatch(projectsSlice.actions.addBoard({ name }));
     } else {
-      dispatch(projectsSlice.actions.editBoard({ name, newColumns }));
+      dispatch(projectsSlice.actions.editBoard({ name }));
     }
   };
 
@@ -84,8 +64,7 @@ function AddEditProjectModal({ setIsProjectModalOpen, type , }) {
         <div>
           <button
             onClick={() => {
-              const isValid = validate();
-              if (isValid === true) onSubmit(type);
+              onSubmit(type);
             }}
             className=" w-full items-center hover:opacity-70 mt-8 relative  text-white bg-black py-2 rounded-lg"
           >

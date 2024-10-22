@@ -2,18 +2,17 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import projectsSlice from "../../redux/projectsSlice";
 
-function Subtask({ index, taskIndex, colIndex }) {
+function Subtask({ index, taskIndex }) {
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects);
   const project = projects.find((project) => project.isActive === true);
-  const col = project.columns.find((col, i) => i === colIndex);
-  const task = col.tasks.find((task, i) => i === taskIndex);
+  const task = project.tasks.find((task, i) => i === taskIndex);
   const subtask = task.subtasks.find((subtask, i) => i === index);
   const checked = subtask.isCompleted;
 
   const onChange = (e) => {
     dispatch(
-      projectsSlice.actions.setSubtaskCompleted({ index, taskIndex, colIndex })
+      projectsSlice.actions.setSubtaskCompleted({ index, taskIndex })
     );
   };
 

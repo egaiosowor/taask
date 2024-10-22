@@ -26,7 +26,7 @@ function DeleteModal({ type, title, onDeleteBtnClick, setIsDeleteModalOpen }) {
         ) : (
           <p className="text-gray-500 font-[600] tracking-wide text-xs pt-6">
             Are you sure you want to delete this project? This action
-            will remove all columns and tasks and cannot be reversed.
+            will remove all tasks and cannot be reversed.
           </p>
         )}
 

@@ -20,3 +20,11 @@ export const getProjects = () => {
       console.error("Could not save state", err);
     }
   };
+
+
+  export function isDue(dueDate){
+    const now = new Date();
+    const due = new Date(dueDate);
+
+    return (due-now) <= 0
+  }
