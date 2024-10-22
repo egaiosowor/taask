@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import TaskModal from "../modals/TaskModal";
-import clockIcon from "../assets/clock-icon.svg";
+import {TaskModal} from "../ui/modals";
+import { FaRegClock } from "react-icons/fa6";
+
 
 function Task({ colIndex, taskIndex }) {
   const boards = useSelector((state) => state.boards);
@@ -57,7 +58,7 @@ function Task({ colIndex, taskIndex }) {
       >
         <p className=" font-bold tracking-wide ">{task.title}</p>
         <div className="flex space-x-1">
-          <img src={clockIcon} className="h-4 " />{" "}
+          <FaRegClock />
           <p className="text-xs text-gray-500">{countdown}</p>
         </div>
         <p className=" font-bold text-xs tracking-tighter mt-2 text-gray-500">

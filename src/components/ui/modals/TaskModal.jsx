@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ElipsisMenu from "../components/ElipsisMenu";
-import elipsis from "../assets/icon-vertical-ellipsis.svg";
-import boardsSlice from "../redux/boardsSlice";
-import Subtask from "../components/Subtask";
-import AddEditTaskModal from "./AddEditTaskModal";
-import DeleteModal from "./DeleteModal";
+
+import ElipsisMenu from '../ElipsisMenu';
+
+import { FaEllipsisV } from "react-icons/fa";
+
+import Subtask from "../Subtask";
+import boardsSlice from "../../../redux/boardsSlice";
+
+import {
+  AddEditTaskModal,
+  DeleteModal
+} from './index'
+
 
 function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
   const dispatch = useDispatch();
@@ -72,7 +79,7 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
   return (
     <div
       onClick={onClose}
-      className=" fixed right-0 top-0 px-2 py-4 overflow-scroll scrollbar-hide  z-50 left-0 bottom-0 justify-center items-center flex dropdown "
+      className="flex items-center justify-center fixed right-0 top-0 px-2 py-4 overflow-scroll scrollbar-hide z-50 left-0 bottom-0 dropdown "
     >
       {/* MODAL SECTION */}
 
@@ -80,13 +87,11 @@ function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
         <div className=" relative flex   justify-between w-full items-center">
           <h1 className=" text-lg">{task.title}</h1>
 
-          <img
+          <FaEllipsisV
             onClick={() => {
               setIsElipsisMenuOpen((prevState) => !prevState);
             }}
-            src={elipsis}
-            alt="elipsis"
-            className=" cursor-pointer h-6"
+            className=" cursor-pointer h-6 text-gray-600"
           />
           {isElipsisMenuOpen && (
             <ElipsisMenu

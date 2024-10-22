@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import crossIcon from "../assets/icon-cross.svg";
-import boardsSlice from "../redux/boardsSlice";
+
 import { v4 as uuidv4 } from "uuid";
+import boardsSlice from "../../../redux/boardsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function AddEditBoardModal({ setIsBoardModalOpen, type , }) {
@@ -85,12 +85,11 @@ function AddEditBoardModal({ setIsBoardModalOpen, type , }) {
         {/* Task Name */}
 
         <div className="mt-8 flex flex-col space-y-1">
-          <label className="  text-sm dark:text-white text-gray-500">
+          <label className="text-sm text-gray-800">
             Board Name
           </label>
           <input
-            className=" bg-transparent  px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-1  ring-0  "
-            placeholder=" e.g Web Design"
+            className=" bg-transparent  px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-1  ring-0 "
             value={name}
             onChange={(e) => setName(e.target.value)}
             id="board-name-input"
@@ -103,7 +102,7 @@ function AddEditBoardModal({ setIsBoardModalOpen, type , }) {
               const isValid = validate();
               if (isValid === true) onSubmit(type);
             }}
-            className=" w-full items-center hover:opacity-70 dark:text-white dark:bg-[#FFA500] mt-8 relative  text-white bg-[#FFA500] py-2 rounded-full"
+            className=" w-full items-center hover:opacity-70 mt-8 relative  text-white bg-black py-2 rounded-lg"
           >
             {type === "add" ? "Create New Board" : "Save Changes"}
           </button>

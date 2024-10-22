@@ -3,8 +3,10 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import crossIcon from "../assets/icon-cross.svg";
-import boardsSlice from "../redux/boardsSlice";
+import boardsSlice from "../../../redux/boardsSlice";
+
+import { RxCross2 } from "react-icons/rx";
+import { MdLibraryAdd } from "react-icons/md";
 
 
 function AddEditTaskModal({
@@ -124,17 +126,17 @@ function AddEditTaskModal({
       {/* Modal Section */}
 
       <div
-        className=" scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto  bg-white dark:bg-[#2b2c37] text-black dark:text-white font-bold
-       shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8  py-8 rounded-xl"
+        className="overflow-y-scroll max-h-[70vh] my-auto bg-white text-black font-bold
+       shadow-md shadow-[#364e7e1a] max-w-md mx-auto w-full px-8 py-8 rounded-xl"
       >
         <h3 className=" text-lg ">
-          {type === "edit" ? "Edit" : "Add New"} Task
+          {type === "edit" ? "Edit" : "Create"} Task
         </h3>
 
         {/* Task Name */}
 
         <div className="mt-8 flex flex-col space-y-1">
-          <label className="  text-sm dark:text-white text-gray-500">
+          <label className="text-sm text-gray-800">
             Task Name
           </label>
           <input
@@ -142,66 +144,56 @@ function AddEditTaskModal({
             onChange={(e) => setTitle(e.target.value)}
             id="task-name-input"
             type="text"
-            className=" bg-transparent  px-4 py-2 outline-none focus:border-0 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-1  ring-0  "
-            placeholder=" e.g Take coffee break"
+            className=" bg-transparent  px-4 py-2 outline-none focus:border-0 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-1  ring-0"
           />
         </div>
 
         {/* Description */}
         <div className="mt-8 flex flex-col space-y-1">
-          <label className="  text-sm dark:text-white text-gray-500">
+          <label className="  text-sm text-gray-800">
             Description
           </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             id="task-description-input"
-            className=" bg-transparent outline-none min-h-[150px] focus:border-0 px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-[1px] "
-            placeholder="e.g. It's always good to take a break. This 
-            15 minute break will  recharge the batteries 
-            a little."
+            className=" bg-transparent outline-none min-h-[100px] focus:border-0 px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-[1px] "
           />
         </div>
 
         {/* Subtasks */}
 
         <div className="mt-8 flex flex-col space-y-3">
-          <label className="  text-sm dark:text-white text-gray-500">
-            Subtasks
-          </label>
-
-          {subtasks.map((subtask, index) => (
-            <div key={index} className=" flex items-center w-full ">
-              <input
-                onChange={(e) => {
-                  onChangeSubtasks(subtask.id, e.target.value);
-                }}
-                type="text"
-                value={subtask.title}
-                className=" bg-transparent outline-none focus:border-0 flex-grow px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-[1px]  "
-                placeholder=" e.g Take coffee break"
-              />
-              <img
-                src={crossIcon}
-                onClick={() => {
-                  onDelete(subtask.id);
-                }}
-                className=" m-4 cursor-pointer "
-              />
-            </div>
-          ))}
-
-          <button
-            className=" w-full items-center dark:text-[#FFA500] dark:bg-white  text-white bg-[#FFA500] py-2 rounded-full "
-            onClick={() => {
-              setSubtasks((state) => [
-                ...state,
-                { title: "", isCompleted: false, id: uuidv4() },
-              ]);
-            }}
-          >
-            + Add New Subtask
-          </button>
+          <div className="flex items-center space-x-1" >
+            <MdLibraryAdd 
+              onClick={() => {
+                setSubtasks((state) => [
+                  ...state,
+                  { title: "", isCompleted: false, id: uuidv4() },
+                ]);
+              }}
+              className="text-xl cursor-pointer"/>
+            <label className="text-sm text-gray-800">Subtasks</label>
+          </div>
+          <div>
+            {subtasks.map((subtask, index) => (
+              <div key={index} className=" flex items-center w-full ">
+                <input
+                  onChange={(e) => {
+                    onChangeSubtasks(subtask.id, e.target.value);
+                  }}
+                  type="text"
+                  value={subtask.title}
+                  className=" bg-transparent outline-none focus:border-0 flex-grow px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-[1px]"
+                />
+                <RxCross2 
+                  onClick={() => {
+                    onDelete(subtask.id);
+                  }} 
+                  className="m-4 text-xl cursor-pointer" />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* current Status  */}
@@ -230,6 +222,7 @@ function AddEditTaskModal({
             onChange={(date) => setDueDate(date)}
             showTimeSelect
             dateFormat="MMMM d, yyyy"
+            className="cursor-pointer"
           />
 
           {/* Create task button */}
@@ -242,7 +235,7 @@ function AddEditTaskModal({
                 type === "edit" && setIsTaskModalOpen(false);
               }
             }}
-            className=" w-full items-center text-white bg-[#FFA500] py-2 rounded-full "
+            className="font-medium w-full items-center text-white bg-black hover:opacity-70 py-2 rounded-lg"
           >
            {type === "edit" ? " save edit" : "Create task"}
           </button>
