@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { MdDashboardCustomize } from "react-icons/md";
 import { FaCirclePlus } from "react-icons/fa6";
 import { FaCheckDouble } from "react-icons/fa6";
 
 import projectsSlice from "../../redux/projectsSlice";
 import { AddEditProjectModal } from "../ui/modals";
 
-function Sidebar() {
+function DesktopSidebar({ isOpen }) {
   const dispatch = useDispatch();
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
 
@@ -17,11 +16,11 @@ function Sidebar() {
   return (
     <>
       <div
-        className='flex-[.5] py-3 px-6 bg-gray-50 min-h-screen'
+        className={`py-3 bg-gray-50 min-h-screen transition-all duration-200 ease-in-out ${isOpen ? 'flex-[.5]  px-6' : 'w-0 overflow-hidden'} `}
       >
         <a href='/' className="flex items-center space-x-1">
             <FaCheckDouble className="text-red-700"/>
-            <h3 className="text-xl hidden md:inline-block font-bold font-sans">
+            <h3 className="text-xl font-bold font-sans">
               Taask
             </h3>
         </a>
@@ -65,4 +64,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default DesktopSidebar;

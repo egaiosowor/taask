@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import useDisclosure from "./hooks/useDisclosure";
 import { useDispatch, useSelector } from "react-redux";
-import Sidebar from './components/layout/Sidebar'
+import useIsMobile from "./hooks/useIsMobile";
+
+import MobileSidebar from './components/layout/MobileSidebar'
+import DesktopSidebar from './components/layout/DesktopSidebar'
 import Home from "./components/container/Home";
 import projectsSlice from "./redux/projectsSlice";
 
@@ -12,16 +16,33 @@ function App() {
   if (!activeProject && projects.length > 0)
     dispatch(projectsSlice.actions.setProjectActive({ index: 0 }));
 
+  const {isOpen, onToggle} = useDisclosure()
+
+  const isMobile = useIsMobile()
 
   return (
     <div className="flex">
-      <Sidebar
-        setIsProjectModalOpen={setIsProjectModalOpen}
-        isProjectModalOpen={isProjectModalOpen}
-      />
+      {
+        isMobile ? (     
+            <MobileSidebar
+              setIsProjectModalOpen={setIsProjectModalOpen}
+              isProjectModalOpen={isProjectModalOpen}
+              isOpen={isOpen}
+              onToggle={onToggle}
+            />
+          ):
+          (
+          <DesktopSidebar
+            setIsProjectModalOpen={setIsProjectModalOpen}
+            isProjectModalOpen={isProjectModalOpen}
+            isOpen={isOpen}
+          />
+        )
+      }
       <Home
         setIsProjectModalOpen={setIsProjectModalOpen}
         isProjectModalOpen={isProjectModalOpen}
+        onToggle={onToggle}
       />
     </div>
   )

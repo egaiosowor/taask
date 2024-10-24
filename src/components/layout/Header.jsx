@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { FaPlus } from "react-icons/fa";
 import { FaEllipsisV } from "react-icons/fa";
-import HeaderDropDown from "./HeaderDropDown";
 import ElipsisMenu from "../ui/ElipsisMenu";
+import SidebarToggle from '../ui/sidebarToggle'
 
 import {
   AddEditTaskModal,
@@ -15,8 +15,7 @@ import {
 import projectsSlice from "../../redux/projectsSlice";
 
 
-function Header({ setIsProjectModalOpen, isProjectModalOpen }) {
-  const [openDropdown, setOpenDropdown] = useState(false);
+function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
   const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
   const [projectType, setProjectType] = useState("add");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -49,10 +48,12 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen }) {
   return (
     <div className="p-2 py-3 bg-white">
       <header className="flex justify-between items-center ">
-        {/* Left Side  */}
-        <h3 className=" truncate max-w-[200px] md:text-2xl text-xl font-bold font-sans  ">
-          {project.name}
-        </h3>
+        <div className="flex items-center space-x-2" >
+          <SidebarToggle onToggle={onToggle} />
+          <h3 className=" truncate max-w-[200px] md:text-2xl text-xl font-bold font-sans  ">
+            {project.name}
+          </h3>
+        </div>
 
         <div className=" flex space-x-4 items-center md:space-x-6 ">
           <button
@@ -67,7 +68,6 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen }) {
           <FaEllipsisV 
             onClick={() => {
               setProjectType("edit");
-              setOpenDropdown(false)
               setIsElipsisMenuOpen((prevState) => !prevState);
             }}
             className=" cursor-pointer h-6 text-gray-600"
@@ -80,13 +80,6 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen }) {
             />
           )}
         </div>
-
-        {openDropdown && (
-          <HeaderDropDown
-            setOpenDropdown={setOpenDropdown}
-            setIsProjectModalOpen={setIsProjectModalOpen}
-          />
-        )}
       </header>
       {isTaskModalOpen && (
         <AddEditTaskModal

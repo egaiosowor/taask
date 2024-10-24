@@ -5,7 +5,7 @@ import Task from '../ui/Task'
 import Header from "../layout/Header";
 import { isDue } from "../../utils";
 
-function Home() {
+function Home({ onToggle }) {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
 
   const projects = useSelector((state) => state.projects);
@@ -20,15 +20,16 @@ function Home() {
       <Header
         setIsProjectModalOpen={setIsProjectModalOpen}
         isProjectModalOpen={isProjectModalOpen}
+        onToggle={onToggle}
       />
 
       {/* Columns Section */}
 
-      <div className="flex">
+      <div className="flex px-2">
         <div>
           {
             allTasks.map((task, index)=>(
-              <Task taskIndex={index} />
+              <Task key={index} taskIndex={index} />
             ))
           }
         </div>
