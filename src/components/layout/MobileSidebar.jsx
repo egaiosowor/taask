@@ -14,10 +14,12 @@ function MobileSidebar({isOpen, onToggle }) {
 
   const projects = useSelector((state) => state.projects);
 
+  console.log("Is Open: ", isOpen)
+
   return (
     <>
       <div
-        className={`w-[190px] transform translate-x-0 transition-transform duration-300 ease-in-out absolute bg-gray-50 py-3 px-6 min-h-screen ${isOpen && '-translate-x-[100%]'}`}       
+        className={`w-[190px] transform transition-transform duration-300 ease-in-out absolute bg-gray-50 py-3 px-6 min-h-screen ${isOpen ? 'translate-x-[-100%]' :'translate-x-0'}`}       
       >
         <div className="flex items-center justify-between" >
           <a href='/' className="flex items-center space-x-1">
@@ -42,7 +44,7 @@ function MobileSidebar({isOpen, onToggle }) {
             />
           </div>
           <div className="space-y-2">
-            {projects.map((project, index) => (
+            {projects?.map((project, index) => (
               <div
                 className={`p-2 rounded-lg duration-500 ease-in-out cursor-pointer hover:opacity-80 ${project.isActive &&
                   " bg-white"

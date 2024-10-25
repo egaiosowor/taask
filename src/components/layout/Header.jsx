@@ -51,35 +51,41 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
         <div className="flex items-center space-x-2" >
           <SidebarToggle onToggle={onToggle} />
           <h3 className=" truncate max-w-[200px] md:text-2xl text-xl font-bold font-sans  ">
-            {project.name}
+            {project?.name}
           </h3>
         </div>
 
-        <div className=" flex space-x-4 items-center md:space-x-6 ">
-          <button
-            className="flex items-center space-x-1 py-2 px-4 rounded-md text-white text-sm font-semibold bg-black hover:opacity-70 duration-200"
-            onClick={() => {
-              setIsTaskModalOpen((prevState) => !prevState);
-            }}
-          >
-            <FaPlus />
-            <span>New Task</span>
-          </button>
-          <FaEllipsisV 
-            onClick={() => {
-              setProjectType("edit");
-              setIsElipsisMenuOpen((prevState) => !prevState);
-            }}
-            className=" cursor-pointer h-6 text-gray-600"
-          />
-          {isElipsisMenuOpen && (
-            <ElipsisMenu
-              type="project"
-              setOpenEditModal={setOpenEditModal}
-              setOpenDeleteModal={setOpenDeleteModal}
-            />
-          )}
-        </div>
+
+        {
+          project && (
+            <div className=" flex space-x-4 items-center md:space-x-6 ">
+              <button
+                className="flex items-center space-x-1 py-2 px-4 rounded-md text-white text-sm font-semibold bg-black hover:opacity-70 duration-200"
+                onClick={() => {
+                  setIsTaskModalOpen((prevState) => !prevState);
+                }}
+              >
+                <FaPlus />
+                <span>New Task</span>
+              </button>
+              <FaEllipsisV 
+                onClick={() => {
+                  setProjectType("edit");
+                  setIsElipsisMenuOpen((prevState) => !prevState);
+                }}
+                className=" cursor-pointer h-6 text-gray-600"
+              />
+              {isElipsisMenuOpen && (
+                <ElipsisMenu
+                  type="project"
+                  setOpenEditModal={setOpenEditModal}
+                  setOpenDeleteModal={setOpenDeleteModal}
+                />
+              )}
+            </div>
+          )
+        }
+
       </header>
       {isTaskModalOpen && (
         <AddEditTaskModal

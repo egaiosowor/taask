@@ -9,10 +9,10 @@ function Home({ onToggle }) {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
 
   const projects = useSelector((state) => state.projects);
-  const project = projects.find((project) => project.isActive === true);
-
-  const allTasks = project.tasks 
-  const dueTasks = allTasks.filter((task) => task.status !== "completed" && isDue(task.dueDate) )
+  const project = projects?.find((project) => project?.isActive === true);
+  console.log(project)
+  const allTasks = project?.tasks
+  // const dueTasks = allTasks.filter((task) => task.status !== "completed" && isDue(task.dueDate) )
 
 
   return (
@@ -27,10 +27,16 @@ function Home({ onToggle }) {
 
       <div className="flex px-2">
         <div>
+          {   
+              allTasks?.map((task, index)=>(
+                <Task key={index} taskIndex={index} />
+              ))
+          }
           {
-            allTasks.map((task, index)=>(
-              <Task key={index} taskIndex={index} />
-            ))
+            projects?.length < 1 && <div>Add Project</div>
+          }
+          {
+            (project && project?.tasks?.length < 1) &&  <div>Add Task</div>
           }
         </div>
       </div>
