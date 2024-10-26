@@ -4,6 +4,8 @@ import { AddEditProjectModal } from '../ui/modals';
 import Task from '../ui/Task'
 import Header from "../layout/Header";
 import { isDue } from "../../utils";
+import NoProject from '../ui/NoProject'
+import NoTask from '../ui/NoTask'
 
 function Home({ onToggle }) {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
@@ -16,7 +18,7 @@ function Home({ onToggle }) {
 
 
   return (
-    <div className="flex-[4] px-2">
+    <div className="flex flex-col flex-[4] px-2 min-h-screen">
       <Header
         setIsProjectModalOpen={setIsProjectModalOpen}
         isProjectModalOpen={isProjectModalOpen}
@@ -24,22 +26,27 @@ function Home({ onToggle }) {
       />
 
       {/* Columns Section */}
+      {
+        allTasks && (
+          <div className="flex flex-[5] px-2">
+            <div>
+              {   
+                  allTasks.map((task, index)=>(
+                    <Task key={index} taskIndex={index} />
+                  ))
+              }
+            </div>
+          </div>
+        )
+      }
+      
 
-      <div className="flex px-2">
-        <div>
-          {   
-              allTasks?.map((task, index)=>(
-                <Task key={index} taskIndex={index} />
-              ))
-          }
-          {
-            projects?.length < 1 && <div>Add Project</div>
-          }
-          {
-            (project && project?.tasks?.length < 1) &&  <div>Add Task</div>
-          }
-        </div>
-      </div>
+      {
+          projects?.length < 1 && <NoProject/>
+      }
+      {
+          (project && project?.tasks?.length < 1) && <NoTask/>
+      }
       
       {isProjectModalOpen && (
         <AddEditProjectModal

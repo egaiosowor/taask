@@ -46,7 +46,7 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
   };
 
   return (
-    <div className="p-2 py-3 bg-white">
+    <div className="p-2 py-3 bg-white flex-[.5]">
       <header className="flex justify-between items-center ">
         <div className="flex items-center space-x-2" >
           <SidebarToggle onToggle={onToggle} />

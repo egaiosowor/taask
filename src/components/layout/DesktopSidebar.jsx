@@ -40,7 +40,7 @@ function DesktopSidebar({ isOpen }) {
             {projects?.map((project, index) => (
               <div
                 className={`p-2 rounded-lg duration-500 ease-in-out cursor-pointer hover:opacity-80 ${project.isActive &&
-                  " bg-white"
+                  " bg-white font-black"
                   } `}
                 key={index}
                 onClick={() => {
