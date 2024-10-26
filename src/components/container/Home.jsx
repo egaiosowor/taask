@@ -27,7 +27,7 @@ function Home({ onToggle }) {
 
       {/* Columns Section */}
       {
-        allTasks && (
+        allTasks.length > 0 && (
           <div className="flex flex-[5] px-2">
             <div>
               {   
