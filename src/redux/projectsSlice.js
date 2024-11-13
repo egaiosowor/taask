@@ -37,11 +37,11 @@ const projectsSlice = createSlice({
       updateProjects(state)
     },
     addTask: (state, action) => {
-      const { title, status, description, dueDate, subtasks } =
+      const { title, description, dueDate, subtasks } =
         action.payload;
-      const task = { title, description, dueDate, subtasks, status };
+      const task = { title, description, dueDate, subtasks};
       const project = state.find((project) => project.isActive);
-      project.tasks.push(task);
+      project.tasks.push({...task, status: 'to-do'});
       updateProjects(state)
     },
     editTask: (state, action) => {
