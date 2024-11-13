@@ -14,8 +14,6 @@ function MobileSidebar({isOpen, onToggle }) {
 
   const projects = useSelector((state) => state.projects);
 
-  console.log("Is Open: ", isOpen)
-
   return (
     <>
       <div

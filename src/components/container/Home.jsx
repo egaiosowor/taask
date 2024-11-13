@@ -6,19 +6,19 @@ import Header from "../layout/Header";
 import { isDue } from "../../utils";
 import NoProject from '../ui/NoProject'
 import NoTask from '../ui/NoTask'
+import Pill from '../ui/pill'
 
 function Home({ onToggle }) {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
 
   const projects = useSelector((state) => state.projects);
   const project = projects?.find((project) => project?.isActive === true);
-  console.log(project)
-  const allTasks = project?.tasks
+  const tasks = project?.tasks
   // const dueTasks = allTasks.filter((task) => task.status !== "completed" && isDue(task.dueDate) )
 
 
   return (
-    <div className="flex flex-col flex-[4] px-2 min-h-screen">
+    <div className="flex flex-col flex-[4] px-4 min-h-screen">
       <Header
         setIsProjectModalOpen={setIsProjectModalOpen}
         isProjectModalOpen={isProjectModalOpen}
@@ -27,11 +27,17 @@ function Home({ onToggle }) {
 
       {/* Columns Section */}
       {
-        allTasks?.length > 0 && (
-          <div className="flex flex-[5] px-2">
-            <div>
+        tasks?.length > 0 && (
+          <div className="bg-gray-100 flex flex-col flex-[5] p-4 border rounded-md">
+            {/* <div className="flex space-x-2" >
+              <Pill name='To-do' />
+              <Pill name='In-progress' />
+              <Pill name='Completed' />
+            </div>
+            <div className="border border-dashed mt-4 mb-2"></div> */}
+            <div className="w-full" >
               {   
-                  allTasks.map((task, index)=>(
+                  tasks.map((task, index)=>(
                     <Task key={index} taskIndex={index} />
                   ))
               }

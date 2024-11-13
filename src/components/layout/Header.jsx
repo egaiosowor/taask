@@ -91,7 +91,6 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
         <AddEditTaskModal
           setIsAddTaskModalOpen={setIsTaskModalOpen}
           type="add"
-          device="mobile"
         />
       )}
 
