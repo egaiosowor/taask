@@ -37,6 +37,7 @@ function Task({ taskIndex }) {
   };
 
   const countdown = calculateCountdown(task.dueDate);
+  const progress = (completed/subtasks.length) * 100
 
   return (
     <>
@@ -44,17 +45,19 @@ function Task({ taskIndex }) {
         onClick={() => {
           setIsTaskModalOpen(true);
         }}
-        className="border-l-8 border-purple-600 w-full first:my-5 space-y-2 rounded-md shadow-md bg-white p-3 hover:text-[#635fc7] cursor-pointer "
+        className="flex flex-col max-w-sm w-full first:my-5 space-y-3 rounded-md shadow-md transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] bg-white p-3 cursor-pointer "
       >
         <h3 className=" font-bold tracking-wide ">{task.title}</h3>
-        <p className="tracking-wide ">{task.description}</p>
+        <p className="tracking-wide">{task.description}</p>
         <div className="flex space-x-1">
           <FaRegClock />
           <p className="text-xs text-gray-500">{countdown}</p>
         </div>
-        <p className=" font-bold text-xs tracking-tighter mt-2 text-gray-500">
-          {completed} of {subtasks.length} completed tasks
-        </p>
+        <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div style={{ width: `${progress || 0}%` }} className="bg-blue-500 h-2.5 rounded-full"></div>
+        </div>
+        <p className="text-xs text-gray-500 self-end">{progress}%</p>
+
       </div>
       {isTaskModalOpen && (
         <TaskModal

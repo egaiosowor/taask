@@ -5,13 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import projectsSlice from "../../../redux/projectsSlice";
 
-import { RxCross2 } from "react-icons/rx";
+// import { RxCross2 } from "react-icons/rx";
 import { MdLibraryAdd } from "react-icons/md";
 
 
 function AddEditTaskModal({
   type,
-  device,
   setIsTaskModalOpen,
   setIsAddTaskModalOpen,
   taskIndex
@@ -20,7 +19,7 @@ function AddEditTaskModal({
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [dueDate, setDueDate] = useState(new Date());
+  const [dueDate, setDueDate] = useState();
   const project = useSelector((state) => state.projects).find(
     (project) => project.isActive
   );
@@ -40,10 +39,6 @@ function AddEditTaskModal({
     });
   };
 
-  const onChangeStatus = (e) => {
-    setStatus(e.target.value);
-  };
-
   if (type === "edit" && isFirstLoad) {
     setSubtasks(
       task.subtasks.map((subtask) => {
@@ -56,9 +51,9 @@ function AddEditTaskModal({
     setIsFirstLoad(false);
   }
 
-  const onDelete = (id) => {
-    setSubtasks((prevState) => prevState.filter((el) => el.id !== id));
-  };
+  // const onDelete = (id) => {
+  //   setSubtasks((prevState) => prevState.filter((el) => el.id !== id));
+  // };
 
   const onSubmit = (type) => {
     if (type === "add") {
@@ -68,7 +63,6 @@ function AddEditTaskModal({
           description,
           dueDate,
           subtasks,
-          status,
         })
       );
     } else {
@@ -100,7 +94,7 @@ function AddEditTaskModal({
 
       <div
         className="overflow-y-scroll max-h-[70vh] my-auto bg-white text-black font-bold
-       shadow-md shadow-[#364e7e1a] max-w-md mx-auto w-full px-8 py-8 rounded-xl"
+       shadow-md shadow-[#364e7e1a] max-w-md mx-auto w-full px-4 py-6 rounded-xl"
       >
         <h3 className=" text-lg ">
           {type === "edit" ? "Edit" : "Create"} Task
@@ -113,6 +107,7 @@ function AddEditTaskModal({
             Task Name
           </label>
           <input
+            required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             id="task-name-input"
@@ -127,6 +122,7 @@ function AddEditTaskModal({
             Description
           </label>
           <textarea
+            required
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             id="task-description-input"
@@ -148,54 +144,60 @@ function AddEditTaskModal({
               className="text-xl cursor-pointer"/>
             <label className="text-sm text-gray-800">Subtasks</label>
           </div>
-          <div>
+          <div className='space-y-2' >
             {subtasks.map((subtask, index) => (
               <div key={index} className=" flex items-center w-full ">
                 <input
                   onChange={(e) => {
                     onChangeSubtasks(subtask.id, e.target.value);
                   }}
+                  required
                   type="text"
                   value={subtask.title}
                   className=" bg-transparent outline-none focus:border-0 flex-grow px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-[1px]"
                 />
-                <RxCross2 
+                {/* <RxCross2 
                   onClick={() => {
                     onDelete(subtask.id);
                   }} 
-                  className="m-4 text-xl cursor-pointer" />
+                  className="m-4 text-xl cursor-pointer" /> */}
               </div>
             ))}
           </div>
         </div>
 
         {/* current Status  */}
-        <div className="mt-8 flex flex-col space-y-3">
-          <label className="  text-sm dark:text-white text-gray-500">
-            Current Status
-          </label>
-          <select
-            value={status}
-            onChange={onChangeStatus}
-            className=" select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0  border-[1px] border-gray-300 focus:outline-[#635fc7] outline-none"
-          >
-            <option>to-do</option>
-            <option>in-progress</option>
-            <option>completed</option>
-          </select>          
-        </div>
+        {type === "edit" &&
+          <div className="mt-8 flex flex-col space-y-3">
+            <label className="  text-sm text-gray-500">
+              Current Status
+            </label>
+            <select
+              required
+              value={status}
+              onChange={(e)=>setStatus(e.target.value)}
+              className=" select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0  border-[1px] border-gray-300 focus:outline-[#635fc7] outline-none"
+            >
+              <option value='to-do' >To-do</option>
+              <option value='in-progress' >In-progress</option>
+              <option value='completed' >Completed</option>
+            </select>          
+          </div>
+        }
 
         {/* due date  */}
         <div className="mt-8 flex flex-col space-y-3">
-          <label className="  text-sm dark:text-white text-gray-500">
+          <label className="  text-sm  text-gray-500">
            Due Date
           </label>
           <DatePicker
-            selected={dueDate}
+            required
+            selected={type === 'edit' ? new Date(dueDate) : dueDate}
             onChange={(date) => setDueDate(date)}
             showTimeSelect
-            dateFormat="MMMM d, yyyy"
-            className="cursor-pointer"
+            dateFormat="d MMM YYYY, h:mmaa"
+            className="p-2 cursor-pointer border border-black rounded-md"
+            placeholderText="Select date"
           />
 
           {/* Create task button */}
@@ -205,9 +207,10 @@ function AddEditTaskModal({
               setIsAddTaskModalOpen(false);
               type === "edit" && setIsTaskModalOpen(false);
             }}
+            type='submit'
             className="font-medium w-full items-center text-white bg-black hover:opacity-70 py-2 rounded-lg"
           >
-           {type === "edit" ? " save edit" : "Create task"}
+           {type === "edit" ? "Save" : "Create"}
           </button>
         </div>
       </div>

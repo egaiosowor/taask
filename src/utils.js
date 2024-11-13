@@ -22,6 +22,10 @@ export const getProjects = () => {
   };
 
 
+  export function toStartCase(word){
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
+
   export function isDue(dueDate){
     const now = new Date();
     const due = new Date(dueDate);

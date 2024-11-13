@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import ElipsisMenu from '../ElipsisMenu';
@@ -15,13 +15,17 @@ import {
 
 
 function TaskModal({ taskIndex, setIsTaskModalOpen }) {
-  const dispatch = useDispatch();
+
+  const dispatch = useDispatch()
+  
   const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const projects = useSelector((state) => state.projects);
   const project = projects.find((project) => project.isActive === true);
   const task = project.tasks.find((task, i) => i === taskIndex);
   const subtasks = task.subtasks;
+  const [status, setStatus] = useState(task.status);
 
   let completed = 0;
   subtasks.forEach((subtask) => {
@@ -30,10 +34,21 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
     }
   });
 
-  const [status, setStatus] = useState(task.status);
-  const onChange = (e) => {
-    setStatus(e.target.value);
-  };
+  const taskIsCompleted = completed === subtasks.length
+
+  useEffect(()=>{
+    if(taskIsCompleted){
+      setStatus('completed')
+    }else{
+      setStatus('in-progress')
+    }
+    dispatch(
+      projectsSlice.actions.setTaskStatus({
+        taskIndex,
+        status,
+      })
+    );
+  }, [completed])
 
   const onClose = (e) => {
     if (e.target !== e.currentTarget) {
@@ -77,7 +92,7 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
     >
       {/* MODAL SECTION */}
 
-      <div className=" scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto  bg-white dark:bg-[#2b2c37] text-black dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8  py-8 rounded-xl">
+      <div className=" scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto  bg-white text-black font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8  py-8 rounded-xl">
         <div className=" relative flex   justify-between w-full items-center">
           <h1 className=" text-lg">{task.title}</h1>
 
@@ -120,22 +135,22 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
         {/* Current Status Section */}
 
         <div className="mt-8 flex flex-col space-y-3">
-          <label className="  text-sm dark:text-white text-gray-500">
+          <label className="  text-sm text-gray-500">
             Current Status
           </label>
           <select
             className=" select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0  border-[1px] border-gray-300 focus:outline-[#635fc7] outline-none"
             value={status}
-            onChange={onChange}
+            onChange={(e)=>setStatus(e.target.value)}
           >
-            <option className="status-options">
-              to-do
+            <option value='to-do' className="status-options">
+              To-do
             </option>
-            <option className="status-options">
-              in-progress
+            <option value='in-progress' className="status-options">
+              In-progress
             </option>
-            <option className="status-options">
-              completed
+            <option value='completed' className="status-options">
+              Completed
             </option>
           </select>
         </div>
