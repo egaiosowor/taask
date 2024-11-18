@@ -46,7 +46,7 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
   };
 
   return (
-    <div className="p-2 py-3 bg-white flex-[.5]">
+    <div className="p-2 py-3 bg-white">
       <header className="flex justify-between items-center ">
         <div className="flex items-center space-x-2" >
           <SidebarToggle onToggle={onToggle} />
@@ -59,15 +59,12 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
         {
           project && (
             <div className=" flex space-x-4 items-center md:space-x-6 ">
-              <button
+              <a href='/create-task'
                 className="flex items-center space-x-1 py-2 px-4 rounded-md text-white text-sm font-semibold bg-black hover:opacity-70 duration-200"
-                onClick={() => {
-                  setIsTaskModalOpen((prevState) => !prevState);
-                }}
-              >
+               >
                 <FaPlus />
                 <span>New Task</span>
-              </button>
+              </a>
               <FaEllipsisV 
                 onClick={() => {
                   setProjectType("edit");
