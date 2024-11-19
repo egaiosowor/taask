@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "./components/layout/Layout"; // Include the Layout
 import Home from "./components/pages/Home";
 import CreateTaskPage from "./components/pages/createTaskPage";
+import EditTaskPage from "./components/pages/EditTaskPage";
 import projectsSlice from "./redux/projectsSlice";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create-task" element={<CreateTaskPage />} />
+          <Route path="/edit-task/:taskId" element={<EditTaskPage />} />
         </Routes>
       </Layout>
     </Router>

@@ -37,33 +37,35 @@ const projectsSlice = createSlice({
       updateProjects(state)
     },
     addTask: (state, action) => {
-      const { title, status, description, dueDate, subtasks } =
-        action.payload;
+      const { title, description, dueDate, subtasks, status } = action.payload;
       const task = { title, description, dueDate, subtasks, status };
       const project = state.find((project) => project.isActive);
-      project.tasks.push(task);
-      updateProjects(state)
-    },
-    editTask: (state, action) => {
-      const {
-        title,
-        status,
-        description,
-        dueDate,
-        subtasks,
-        taskIndex,
-      } = action.payload;
-      const project = state.find((project) => project.isActive);
-      const task = project.tasks.find((task, index) => index === taskIndex);
-      task.title = title;
-      task.status = status;
-      task.description = description;
-      task.dueDate = dueDate;
-      task.subtasks = subtasks;
-      project.tasks = project.tasks.filter((task, index) => index !== taskIndex);
-      project.tasks.push(task);
-      updateProjects(state)
-    },
+      if (project) {
+          project.tasks.push(task);
+      }
+      updateProjects(state);
+  },
+  
+  editTask: (state, action) => {
+    const {
+      title,
+      status,
+      description,
+      dueDate,
+      subtasks,
+      taskIndex,
+    } = action.payload;
+    const project = state.find((project) => project.isActive);
+    const task = project.tasks.find((task, index) => index == taskIndex);
+    task.title = title;
+    task.status = status;
+    task.description = description;
+    task.dueDate = dueDate;
+    task.subtasks = subtasks;
+    project.tasks = project.tasks.filter((task, index) => index !== taskIndex);
+    project.tasks.push(task);
+    updateProjects(state)
+  },
     setSubtaskCompleted: (state, action) => {
       const payload = action.payload;
       const project = state.find((project) => project.isActive);
@@ -87,6 +89,7 @@ const projectsSlice = createSlice({
       project.tasks = project.tasks.filter((task, i) => i !== payload.taskIndex);
       updateProjects(state)
     },
+    
   },
 });
 

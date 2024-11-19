@@ -1,21 +1,38 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import projectsSlice from "../../redux/projectsSlice";
 import { MdLibraryAdd } from "react-icons/md";
 
-function CreateTaskPage() {
+function EditTaskPage() {
+    const { taskId } = useParams(); // Get taskId from the URL params
     const dispatch = useDispatch();
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [subtasks, setSubtasks] = useState([
+    const navigate = useNavigate();
+
+    const project = useSelector((state) => state.projects).find(
+        (project) => project.isActive
+    );
+
+    const task = project.tasks.find((task, index) => index == taskId )
+
+    // Initialize form state with the task data if task exists
+    const [title, setTitle] = useState(task?.title || "");
+    const [description, setDescription] = useState(task?.description || "");
+    const [subtasks, setSubtasks] = useState(task?.subtasks || [
         { title: "", dueDate: null, isCompleted: false, id: uuidv4() },
     ]);
 
-    // Handle title change for subtasks
+    useEffect(() => {
+        if (!task) {
+            // Handle the case where the task is not found
+            alert("Task not found");
+            navigate("/"); // Redirect to home or another page
+        }
+    }, [task, navigate]);
+
     const onChangeSubtaskTitle = (id, newValue) => {
         setSubtasks((prevState) =>
             prevState.map((subtask) =>
@@ -24,7 +41,6 @@ function CreateTaskPage() {
         );
     };
 
-    // Handle due date change for subtasks
     const onChangeSubtaskDueDate = (id, newDate) => {
         setSubtasks((prevState) =>
             prevState.map((subtask) =>
@@ -33,9 +49,6 @@ function CreateTaskPage() {
         );
     };
 
-    const navigate = useNavigate();
-
-    // Handle task submission
     const onSubmit = () => {
         if (!title.trim()) {
             alert("Task name is required!");
@@ -54,34 +67,30 @@ function CreateTaskPage() {
             return;
         }
 
-        // Calculate the main task's due date based on the latest subtask due date
         const dueDate = Math.max(
             ...subtasks.map((subtask) => new Date(subtask.dueDate).getTime())
         );
 
         dispatch(
-            projectsSlice.actions.addTask({
+            projectsSlice.actions.editTask({
+                taskIndex: taskId, // Send task ID along with updated task data
                 title,
                 description,
                 dueDate: new Date(dueDate),
-                subtasks, // Store subtasks along with their due dates
-                status: "to-do",
+                subtasks,
+                status: "to-do", // Adjust status if necessary
             })
         );
 
-        // Clear fields after submission
-        setTitle("");
-        setDescription("");
-        setSubtasks([{ title: "", dueDate: null, isCompleted: false, id: uuidv4() }]);
+        // Redirect to the home page or the task list after editing
         navigate("/");
     };
 
     return (
-        <div className="bg-gray-100 flex flex-col p-4 border rounded-md ">
+        <div className="bg-gray-100 flex flex-col p-4 border rounded-md">
             <div className="max-w-[500px]">
-                <h1 className="font-bold text-lg">Create Task</h1>
+                <h1 className="font-bold text-lg">Edit Task</h1>
 
-                {/* Task Title */}
                 <div className="mt-8 flex flex-col space-y-1">
                     <label className="text-sm text-gray-800">Task Name</label>
                     <input
@@ -92,7 +101,6 @@ function CreateTaskPage() {
                     />
                 </div>
 
-                {/* Task Description */}
                 <div className="mt-8 flex flex-col space-y-1">
                     <label className="text-sm text-gray-800">Description</label>
                     <textarea
@@ -102,7 +110,6 @@ function CreateTaskPage() {
                     />
                 </div>
 
-                {/* Subtasks */}
                 <div className="mt-8 flex flex-col space-y-3">
                     <div className="flex items-center space-x-1">
                         <MdLibraryAdd
@@ -125,7 +132,7 @@ function CreateTaskPage() {
                                 className="bg-transparent px-4 py-2 rounded-md border border-gray-600 focus:outline-[#635fc7]"
                             />
                             <DatePicker
-                                selected={subtask.dueDate}
+                                selected={new Date(subtask.dueDate)}
                                 onChange={(date) => onChangeSubtaskDueDate(subtask.id, date)}
                                 showTimeSelect
                                 dateFormat="d MMM yyyy, h:mm aa"
@@ -136,16 +143,15 @@ function CreateTaskPage() {
                     ))}
                 </div>
 
-                {/* Submit Button */}
                 <button
                     onClick={onSubmit}
                     className="mt-8 font-medium w-full text-white bg-black hover:opacity-70 py-2 rounded-lg"
                 >
-                    Create
+                    Save Changes
                 </button>
             </div>
         </div>
     );
 }
 
-export default CreateTaskPage;
+export default EditTaskPage;

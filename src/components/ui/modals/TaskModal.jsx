@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import ElipsisMenu from '../ElipsisMenu';
+import TaskElipsisMenu from '../TaskElipsisMenu';
 
 import { FaEllipsisV } from "react-icons/fa";
 
@@ -9,7 +9,6 @@ import Subtask from "../Subtask";
 import projectsSlice from "../../../redux/projectsSlice";
 
 import {
-  AddEditTaskModal,
   DeleteModal
 } from './index'
 
@@ -24,6 +23,7 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
   const projects = useSelector((state) => state.projects);
   const project = projects.find((project) => project.isActive === true);
   const task = project.tasks.find((task, i) => i === taskIndex);
+  console.log(task)
   const subtasks = task.subtasks;
   const [status, setStatus] = useState(task.status);
 
@@ -73,10 +73,8 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
     }
   };
 
-  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
   const setOpenEditModal = () => {
-    setIsAddTaskModalOpen(true);
     setIsElipsisMenuOpen(false);
   };
 
@@ -103,10 +101,11 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
             className=" cursor-pointer h-6 text-gray-600"
           />
           {isElipsisMenuOpen && (
-            <ElipsisMenu
+            <TaskElipsisMenu
               setOpenEditModal={setOpenEditModal}
               setOpenDeleteModal={setOpenDeleteModal}
               type="Task"
+              taskId={taskIndex}
             />
           )}
         </div>
@@ -164,14 +163,6 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
         />
       )}
 
-      {isAddTaskModalOpen && (
-        <AddEditTaskModal
-          setIsAddTaskModalOpen={setIsAddTaskModalOpen}
-          setIsTaskModalOpen={setIsTaskModalOpen}
-          type="edit"
-          taskIndex={taskIndex}
-        />
-      )}
     </div>
   );
 }
