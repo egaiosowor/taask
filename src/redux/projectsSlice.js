@@ -56,7 +56,7 @@ const projectsSlice = createSlice({
       taskIndex,
     } = action.payload;
     const project = state.find((project) => project.isActive);
-    const task = project.tasks.find((task, index) => index == taskIndex);
+    const task = project.tasks.find((task, index) => index === taskIndex);
     task.title = title;
     task.status = status;
     task.description = description;
