@@ -1,3 +1,7 @@
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import useDisclosure from "./hooks/useDisclosure";
@@ -34,6 +38,7 @@ function App() {
           <Route path="/create-task" element={<CreateTaskPage />} />
           <Route path="/edit-task/:taskId" element={<EditTaskPage />} />
         </Routes>
+        <ToastContainer />
       </Layout>
     </Router>
   );

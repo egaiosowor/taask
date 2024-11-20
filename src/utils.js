@@ -1,3 +1,4 @@
+
 export const getProjects = () => {
     try {
       const serializedState = localStorage.getItem("projects");
@@ -32,3 +33,6 @@ export const getProjects = () => {
 
     return (due-now) <= 0
   }
+
+
+  
