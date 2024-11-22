@@ -13,7 +13,7 @@ function AddEditTaskModal({
   type,
   setIsTaskModalOpen,
   setIsAddTaskModalOpen,
-  taskIndex
+  taskId
 }) {
   const dispatch = useDispatch();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -24,7 +24,7 @@ function AddEditTaskModal({
     (project) => project.isActive
   );
 
-  const task = type === 'edit' ? project.tasks.find((task, index) => index === taskIndex) : [];
+  const task = type === 'edit' ? project.tasks.find((task) => task.id === taskId) : [];
   const [status, setStatus] = useState(task.status);
   const [subtasks, setSubtasks] = useState([
     { title: "", isCompleted: false, id: uuidv4() },
@@ -73,7 +73,7 @@ function AddEditTaskModal({
           dueDate,
           subtasks,
           status,
-          taskIndex,
+          taskId,
         })
       );
     }

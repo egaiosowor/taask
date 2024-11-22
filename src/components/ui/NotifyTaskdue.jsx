@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-export const NotifyTaskdue = (task) => {
+export default function NotifyTaskdue (task){
   toast.info(
     <>
       <div>
@@ -16,3 +16,4 @@ export const NotifyTaskdue = (task) => {
     }
   );
 };
+

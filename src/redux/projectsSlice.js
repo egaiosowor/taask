@@ -37,8 +37,8 @@ const projectsSlice = createSlice({
       updateProjects(state)
     },
     addTask: (state, action) => {
-      const { title, description, dueDate, subtasks, status } = action.payload;
-      const task = { title, description, dueDate, subtasks, status };
+      const { id, title, description, dueDate, subtasks, status } = action.payload;
+      const task = { id, title, description, dueDate, subtasks, status };
       const project = state.find((project) => project.isActive);
       if (project) {
           project.tasks.push(task);
@@ -48,45 +48,45 @@ const projectsSlice = createSlice({
   
   editTask: (state, action) => {
     const {
+      id,
       title,
       status,
       description,
       dueDate,
       subtasks,
-      taskIndex,
     } = action.payload;
     const project = state.find((project) => project.isActive);
-    const task = project.tasks.find((task, index) => index === taskIndex);
+    const task = project.tasks.find((task) => task.id === id);
     task.title = title;
     task.status = status;
     task.description = description;
     task.dueDate = dueDate;
     task.subtasks = subtasks;
-    project.tasks = project.tasks.filter((task, index) => index !== taskIndex);
+    project.tasks = project.tasks.filter((task) => task.id !== id);
     project.tasks.push(task);
     updateProjects(state)
   },
     setSubtaskCompleted: (state, action) => {
       const payload = action.payload;
       const project = state.find((project) => project.isActive);
-      const task = project.tasks.find((task, i) => i === payload.taskIndex);
-      const subtask = task.subtasks.find((subtask, i) => i === payload.index);
+      const task = project.tasks.find((task) => task.id === payload.taskId);
+      const subtask = task.subtasks.find((subtask) => subtask.id === payload.subtaskId);
       subtask.isCompleted = !subtask.isCompleted;
       updateProjects(state)
     },
     setTaskStatus: (state, action) => {
       const payload = action.payload;
       const project = state.find((project) => project.isActive);
-      const task = project.tasks.find((task, i) => i === payload.taskIndex);
+      const task = project.tasks.find((task) => task.id === payload.taskId);
       task.status = payload.status;
-      project.tasks = project.tasks.filter((task, i) => i !== payload.taskIndex);
+      project.tasks = project.tasks.filter((task) => task.id !== payload.taskId);
       project.tasks.push(task);
       updateProjects(state)
     },
     deleteTask: (state, action) => {
       const payload = action.payload;
       const project = state.find((project) => project.isActive);
-      project.tasks = project.tasks.filter((task, i) => i !== payload.taskIndex);
+      project.tasks = project.tasks.filter((task) => task.id !== payload.taskId);
       updateProjects(state)
     },
     

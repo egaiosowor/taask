@@ -11,9 +11,10 @@ import projectsSlice from "../../../redux/projectsSlice";
 import {
   DeleteModal
 } from './index'
+import { update } from "lodash";
 
 
-function TaskModal({ taskIndex, setIsTaskModalOpen }) {
+function TaskModal({ taskId, setIsTaskModalOpen }) {
 
   const dispatch = useDispatch()
   
@@ -22,8 +23,7 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
 
   const projects = useSelector((state) => state.projects);
   const project = projects.find((project) => project.isActive === true);
-  const task = project.tasks.find((task, i) => i === taskIndex);
-  console.log(task)
+  const task = project.tasks.find((task) => task.id === taskId);
   const subtasks = task.subtasks;
   const [status, setStatus] = useState(task.status);
 
@@ -36,27 +36,13 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
 
   const taskIsCompleted = completed === subtasks.length
 
-  useEffect(()=>{
-    if(taskIsCompleted){
-      setStatus('completed')
-    }else{
-      setStatus('in-progress')
-    }
-    dispatch(
-      projectsSlice.actions.setTaskStatus({
-        taskIndex,
-        status,
-      })
-    );
-  }, [completed])
-
   const onClose = (e) => {
     if (e.target !== e.currentTarget) {
       return;
     }
     dispatch(
       projectsSlice.actions.setTaskStatus({
-        taskIndex,
+        taskId,
         status,
       })
     );
@@ -65,7 +51,7 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
 
   const onDeleteBtnClick = (e) => {
     if (e.target.textContent === "Delete") {
-      dispatch(projectsSlice.actions.deleteTask({ taskIndex }));
+      dispatch(projectsSlice.actions.deleteTask({ taskId }));
       setIsTaskModalOpen(false);
       setIsDeleteModalOpen(false);
     } else {
@@ -105,7 +91,7 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
               setOpenEditModal={setOpenEditModal}
               setOpenDeleteModal={setOpenDeleteModal}
               type="Task"
-              taskId={taskIndex}
+              taskId={taskId}
             />
           )}
         </div>
@@ -123,8 +109,8 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
           {subtasks.map((subtask, index) => {
             return (
               <Subtask
-                index={index}
-                taskIndex={taskIndex}
+                subtaskId={subtask.id}
+                taskId={taskId}
                 key={index}
               />
             );

@@ -16,7 +16,7 @@ function EditTaskPage() {
         (project) => project.isActive
     );
 
-    const task = project.tasks.find((task, index) => index === Number(taskId) )
+    const task = project.tasks.find((task) => task.id === taskId )
 
     // Initialize form state with the task data if task exists
     const [title, setTitle] = useState(task?.title || "");
@@ -73,7 +73,7 @@ function EditTaskPage() {
 
         dispatch(
             projectsSlice.actions.editTask({
-                taskIndex: Number(taskId), // Send task ID along with updated task data
+                id : taskId, // Send task ID along with updated task data
                 title,
                 description,
                 dueDate: new Date(dueDate),

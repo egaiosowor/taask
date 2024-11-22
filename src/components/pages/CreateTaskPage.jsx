@@ -61,6 +61,7 @@ function CreateTaskPage() {
 
         dispatch(
             projectsSlice.actions.addTask({
+                id: uuidv4(),
                 title,
                 description,
                 dueDate: new Date(dueDate),

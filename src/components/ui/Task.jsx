@@ -7,10 +7,10 @@ import { FaRegClock } from "react-icons/fa6";
 import { isDue } from "../../utils";
 
 
-function Task({ taskIndex }) {
+function Task({ taskId }) {
   const projects = useSelector((state) => state.projects);
   const project = projects.find((project) => project.isActive === true);
-  const task = project.tasks.find((task, i) => i === taskIndex);
+  const task = project.tasks.find((task) => task.id === taskId);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   let completed = 0;
@@ -61,7 +61,7 @@ function Task({ taskIndex }) {
       </div>
       {isTaskModalOpen && (
         <TaskModal
-          taskIndex={taskIndex}
+          taskId={task.id}
           setIsTaskModalOpen={setIsTaskModalOpen}
         />
       )}
