@@ -16,15 +16,15 @@ function DesktopSidebar({ isOpen }) {
   return (
     <>
       <div
-        className={`py-3 bg-gray-50 min-h-screen transition-all duration-200 ease-in-out ${isOpen ? 'flex-[.5]  px-6' : 'w-0 overflow-hidden'} `}
+        className={`z-50 py-8 space-y-5 bg-[#1F1F1F] min-h-screen transition-all duration-200 ease-in-out ${isOpen ? 'flex-[.5]  px-6' : 'w-0 overflow-hidden'} `}
       >
         <a href='/' className="flex items-center space-x-1">
             <FaCheckDouble className="text-red-700"/>
-            <h3 className="text-xl font-bold font-sans">
+            <h3 className="text-xl text-white font-bold font-sans">
               Taask
             </h3>
         </a>
-        <div className="py-4 rounded-xl space-y-2">
+        <div className="py-4 rounded-xl space-y-4">
           <div className="flex items-center justify-between" >
             <span className="text-sm text-gray-500 font-medium">
               PROJECTS
@@ -39,15 +39,17 @@ function DesktopSidebar({ isOpen }) {
           <div className="space-y-2">
             {projects?.map((project, index) => (
               <div
-                className={`p-2 rounded-lg duration-500 ease-in-out cursor-pointer hover:opacity-80 ${project.isActive &&
-                  " bg-white font-black"
+                className={`py-2 px-4 rounded-lg duration-500 ease-in-out cursor-pointer hover:opacity-8 ${project.isActive &&
+                  " bg-[#C38FFF] text-white font-black"
                   } `}
                 key={index}
                 onClick={() => {
                   dispatch(projectsSlice.actions.setProjectActive({ index }));
                 }}
               >
-                <p className="truncate max-w-[150px] text-gray-500 text-base font-medium ">{project.name}</p>
+                <p className={`truncate max-w-[150px] text-white text-base font-medium ${project.isActive &&
+                  "font-black"
+                  }`}>{project.name}</p>
               </div>
             ))}
           </div>

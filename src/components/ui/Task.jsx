@@ -41,20 +41,21 @@ function Task({ taskId }) {
 
   return (
     <>
+    
       <div
         onClick={() => {
           setIsTaskModalOpen(true);
         }}
-        className="flex flex-col max-w-sm w-full first:my-5 space-y-3 rounded-md shadow-md transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] bg-white p-3 cursor-pointer "
+        className="flex flex-col max-w-sm w-full first:my-5 space-y-3 rounded-md shadow-md transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] bg-[#1F1F1F] p-3 cursor-pointer "
       >
-        <h3 className=" font-bold tracking-wide ">{task.title}</h3>
-        <p className="tracking-wide">{task.description}</p>
+        <h3 className="text-xl font-bold tracking-wide text-white">{task.title}</h3>
+        <p className="tracking-wide text-white">{task.description}</p>
         <div className="flex space-x-1">
-          <FaRegClock />
+          <FaRegClock className="text-gray-500" />
           <p className="text-xs text-gray-500">{countdown}</p>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2.5">
-          <div style={{ width: `${progress || 0}%` }} className="bg-blue-500 h-2.5 rounded-full"></div>
+        <div className="w-full bg-[#141414] rounded-full h-2.5">
+          <div style={{ width: `${progress || 0}%` }} className="bg-green-800 h-2.5 rounded-full"></div>
         </div>
         <p className="text-xs text-gray-500 self-end">{progress}%</p>
 

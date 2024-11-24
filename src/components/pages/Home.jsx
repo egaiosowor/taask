@@ -14,10 +14,10 @@ function Home() {
 
 
   return (
-    <div>
+    <div className="h-full" >
       {/* Columns Section */}
       {tasks?.length > 0 && (
-        <div className="bg-gray-100 flex flex-col flex-[5] p-4 border rounded-md">
+        <div className="h-full flex flex-col flex-[5] py-4">
           <div className="w-full">
             {tasks.map((task, index) => (
               <Task key={index} taskId={task.id} />

@@ -17,19 +17,19 @@ function MobileSidebar({isOpen, onToggle }) {
   return (
     <>
       <div
-        className={`w-[190px] transform transition-transform duration-300 ease-in-out absolute bg-gray-50 py-3 px-6 min-h-screen ${isOpen ? 'translate-x-[-100%]' :'translate-x-0'}`}       
+        className={`z-50 w-[190px] space-y-5 bg-[#1F1F1F] transform transition-transform duration-300 ease-in-out absolute py-8 px-6 min-h-screen ${isOpen ? 'translate-x-[-100%]' :'translate-x-0'}`}       
       >
         <div className="flex items-center justify-between" >
           <a href='/' className="flex items-center space-x-1">
               <FaCheckDouble className="text-red-700"/>
-              <h3 className="text-xl font-bold font-sans">
+              <h3 className="text-xl text-white font-bold font-sans">
                 Taask
               </h3>
           </a>
           <SidebarToggle onToggle={onToggle} />
         </div>
 
-        <div className="py-4 rounded-xl space-y-2">
+        <div className="py-4 rounded-xl space-y-4">
           <div className="flex items-center justify-between" >
             <span className="text-sm text-gray-500 font-medium">
               PROJECTS
@@ -45,14 +45,16 @@ function MobileSidebar({isOpen, onToggle }) {
             {projects?.map((project, index) => (
               <div
                 className={`p-2 rounded-lg duration-500 ease-in-out cursor-pointer hover:opacity-80 ${project.isActive &&
-                  " bg-white"
+                  " bg-[#C38FFF] text-white font-black"
                   } `}
                 key={index}
                 onClick={() => {
                   dispatch(projectsSlice.actions.setProjectActive({ index }));
                 }}
               >
-                <p className="truncate max-w-[150px] text-gray-500 text-base font-medium ">{project.name}</p>
+                <p className={`truncate max-w-[150px] text-white text-base font-medium ${project.isActive &&
+                  "font-black"
+                  }`}>{project.name}</p>
               </div>
             ))}
           </div>

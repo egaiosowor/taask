@@ -4,7 +4,7 @@ function SidebarToggle({ onToggle }){
    
     return(
         <RiMenu2Fill 
-            className="cursor-pointer text-2xl" 
+            className="cursor-pointer text-white text-2xl" 
             onClick={onToggle}
         />
     )

@@ -7,7 +7,6 @@ import ElipsisMenu from "../ui/ElipsisMenu";
 import SidebarToggle from '../ui/sidebarToggle'
 
 import {
-  AddEditTaskModal,
   AddEditProjectModal,
   DeleteModal
 } from '../ui/modals'
@@ -46,11 +45,11 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
   };
 
   return (
-    <div className="p-2 py-3 bg-white">
+    <div className="px-6 py-3 bg-[#1F1F1F] rounded-[7px]">
       <header className="flex justify-between items-center ">
         <div className="flex items-center space-x-2" >
           <SidebarToggle onToggle={onToggle} />
-          <h3 className=" truncate max-w-[200px] md:text-2xl text-xl font-bold font-sans  ">
+          <h3 className=" truncate max-w-[200px] md:text-2xl text-xl text-white font-bold font-sans  ">
             {project?.name}
           </h3>
         </div>
@@ -60,7 +59,7 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
           project && (
             <div className=" flex space-x-4 items-center md:space-x-6 ">
               <a href='/create-task'
-                className="flex items-center space-x-1 py-2 px-4 rounded-md text-white text-sm font-semibold bg-black hover:opacity-70 duration-200"
+                className="flex items-center space-x-1 py-2 px-4 rounded-md text-white text-sm font-semibold bg-[#C38FFF] duration-200"
                >
                 <FaPlus />
                 <span>New Task</span>
@@ -70,7 +69,7 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
                   setProjectType("edit");
                   setIsElipsisMenuOpen((prevState) => !prevState);
                 }}
-                className=" cursor-pointer h-6 text-gray-600"
+                className=" cursor-pointer h-5 text-white"
               />
               {isElipsisMenuOpen && (
                 <ElipsisMenu
@@ -84,12 +83,6 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
         }
 
       </header>
-      {isTaskModalOpen && (
-        <AddEditTaskModal
-          setIsAddTaskModalOpen={setIsTaskModalOpen}
-          type="add"
-        />
-      )}
 
       {isProjectModalOpen && (
         <AddEditProjectModal

@@ -9,9 +9,9 @@ function TaskElipsisMenu({ type, setOpenDeleteModal, taskId }) {
       }
     >
       <div className="flex justify-end items-center">
-        <div className="w-40 text-sm z-50 font-medium shadow-md shadow-[#364e7e1a] bg-white space-y-4 py-5 px-4 rounded-lg h-auto pr-12">
+        <div className="w-40 text-sm z-50 font-medium shadow-lg shadow-[#dddddd05] bg-[#1F1F1F] space-y-4 py-5 px-4 rounded-lg h-auto pr-12">
           <a href={`/edit-task/${taskId}`}
-            className="cursor-pointer text-gray-700"
+            className="cursor-pointer text-white"
           >
             Edit Task
           </a>

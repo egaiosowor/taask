@@ -76,15 +76,15 @@ function TaskModal({ taskId, setIsTaskModalOpen }) {
     >
       {/* MODAL SECTION */}
 
-      <div className=" scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto  bg-white text-black font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8  py-8 rounded-xl">
+      <div className=" scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto  bg-[#1F1F1F] text-black font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8  py-8 rounded-xl">
         <div className=" relative flex   justify-between w-full items-center">
-          <h1 className=" text-lg">{task.title}</h1>
+          <h1 className="text-white text-lg">{task.title}</h1>
 
           <FaEllipsisV
             onClick={() => {
               setIsElipsisMenuOpen((prevState) => !prevState);
             }}
-            className=" cursor-pointer h-6 text-gray-600"
+            className=" cursor-pointer h-5 text-white"
           />
           {isElipsisMenuOpen && (
             <TaskElipsisMenu
@@ -95,7 +95,7 @@ function TaskModal({ taskId, setIsTaskModalOpen }) {
             />
           )}
         </div>
-        <p className=" text-gray-500 font-[600] tracking-wide text-xs pt-6">
+        <p className=" text-white text-base tracking-wide pt-6">
           {task.description}
         </p>
 
@@ -124,7 +124,7 @@ function TaskModal({ taskId, setIsTaskModalOpen }) {
             Current Status
           </label>
           <select
-            className=" select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0  border-[1px] border-gray-300 focus:outline-[#635fc7] outline-none"
+            className="select-status flex-grow px-4 py-2 rounded-md text-sm text-gray-200 bg-transparent focus:border-0  border-[1px] border-gray-300 focus:outline-[#635fc7] outline-none"
             value={status}
             onChange={(e)=>setStatus(e.target.value)}
           >

@@ -87,26 +87,26 @@ function EditTaskPage() {
     };
 
     return (
-        <div className="bg-gray-100 flex flex-col p-4 border rounded-md">
+        <div className="bg-[#1F1F1F] flex flex-col py-4 px-6 rounded-md">
             <div className="max-w-[500px]">
-                <h1 className="font-bold text-lg">Edit Task</h1>
+                <h1 className="font-bold text-lg text-white">Edit Task</h1>
 
                 <div className="mt-8 flex flex-col space-y-1">
-                    <label className="text-sm text-gray-800">Task Name</label>
+                    <label className="text-sm text-gray-200">Task Name</label>
                     <input
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         type="text"
-                        className="bg-transparent px-4 py-2 rounded-md border border-gray-600 focus:outline-[#635fc7]"
+                        className="bg-transparent text-gray-200 px-4 py-2 rounded-md border border-gray-600"
                     />
                 </div>
 
                 <div className="mt-8 flex flex-col space-y-1">
-                    <label className="text-sm text-gray-800">Description</label>
+                    <label className="text-sm text-gray-200">Description</label>
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        className="bg-transparent px-4 py-2 rounded-md border border-gray-600 focus:outline-[#635fc7]"
+                        className="bg-transparent text-gray-200 px-4 py-2 rounded-md border border-gray-600"
                     />
                 </div>
 
@@ -119,9 +119,9 @@ function EditTaskPage() {
                                     { title: "", dueDate: null, isCompleted: false, id: uuidv4() },
                                 ])
                             }
-                            className="text-xl cursor-pointer"
+                            className="text-xl text-gray-200 cursor-pointer"
                         />
-                        <label className="text-sm text-gray-800">Subtasks</label>
+                        <label className="text-sm text-gray-200">Subtasks</label>
                     </div>
                     {subtasks.map((subtask) => (
                         <div key={subtask.id} className="space-x-2">
@@ -129,14 +129,14 @@ function EditTaskPage() {
                                 value={subtask.title}
                                 onChange={(e) => onChangeSubtaskTitle(subtask.id, e.target.value)}
                                 placeholder="Subtask title"
-                                className="bg-transparent px-4 py-2 rounded-md border border-gray-600 focus:outline-[#635fc7]"
+                                className="bg-transparent text-gray-200 px-4 py-2 rounded-md border border-gray-600"
                             />
                             <DatePicker
                                 selected={new Date(subtask.dueDate)}
                                 onChange={(date) => onChangeSubtaskDueDate(subtask.id, date)}
                                 showTimeSelect
                                 dateFormat="d MMM yyyy, h:mm aa"
-                                className="p-2 cursor-pointer border border-black rounded-md"
+                                className="p-2 cursor-pointer border border-gray-600 bg-transparent text-gray-200 rounded-md"
                                 placeholderText="Subtask due date"
                             />
                         </div>
@@ -145,7 +145,7 @@ function EditTaskPage() {
 
                 <button
                     onClick={onSubmit}
-                    className="mt-8 font-medium w-full text-white bg-black hover:opacity-70 py-2 rounded-lg"
+                    className="mt-8 font-medium w-full text-white bg-[#C38FFF] hover:opacity-70 py-2 rounded-lg"
                 >
                     Save Changes
                 </button>
