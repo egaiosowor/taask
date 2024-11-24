@@ -14,12 +14,12 @@ function DeleteModal({ type, title, onDeleteBtnClick, setIsDeleteModalOpen }) {
     >
       {/* Delete Modal  */}
 
-      <div className=" scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto  bg-white text-black font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8  py-8 rounded-xl ">
-        <h3 className=" font-bold text-red-500 text-xl  ">
+      <div className=" scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto  bg-[#1F1F1F] text-black font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8  py-8 rounded-xl ">
+        <h3 className=" font-bold text-white text-xl  ">
           Delete this {type}?
         </h3>
         {type === "task" ? (
-          <p className="text-gray-500 font-[600] tracking-wide text-xs pt-6">
+          <p className="text-white font-[600] tracking-wide text-xs pt-6">
             Are you sure you want to delete this task and its subtasks?
             This action cannot be reversed.
           </p>
