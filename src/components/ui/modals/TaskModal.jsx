@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import ElipsisMenu from '../ElipsisMenu';
+import TaskElipsisMenu from '../TaskElipsisMenu';
 
 import { FaEllipsisV } from "react-icons/fa";
 
@@ -9,12 +9,12 @@ import Subtask from "../Subtask";
 import projectsSlice from "../../../redux/projectsSlice";
 
 import {
-  AddEditTaskModal,
   DeleteModal
 } from './index'
+import { update } from "lodash";
 
 
-function TaskModal({ taskIndex, setIsTaskModalOpen }) {
+function TaskModal({ taskId, setIsTaskModalOpen }) {
 
   const dispatch = useDispatch()
   
@@ -23,7 +23,7 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
 
   const projects = useSelector((state) => state.projects);
   const project = projects.find((project) => project.isActive === true);
-  const task = project.tasks.find((task, i) => i === taskIndex);
+  const task = project.tasks.find((task) => task.id === taskId);
   const subtasks = task.subtasks;
   const [status, setStatus] = useState(task.status);
 
@@ -36,27 +36,13 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
 
   const taskIsCompleted = completed === subtasks.length
 
-  useEffect(()=>{
-    if(taskIsCompleted){
-      setStatus('completed')
-    }else{
-      setStatus('in-progress')
-    }
-    dispatch(
-      projectsSlice.actions.setTaskStatus({
-        taskIndex,
-        status,
-      })
-    );
-  }, [completed])
-
   const onClose = (e) => {
     if (e.target !== e.currentTarget) {
       return;
     }
     dispatch(
       projectsSlice.actions.setTaskStatus({
-        taskIndex,
+        taskId,
         status,
       })
     );
@@ -65,7 +51,7 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
 
   const onDeleteBtnClick = (e) => {
     if (e.target.textContent === "Delete") {
-      dispatch(projectsSlice.actions.deleteTask({ taskIndex }));
+      dispatch(projectsSlice.actions.deleteTask({ taskId }));
       setIsTaskModalOpen(false);
       setIsDeleteModalOpen(false);
     } else {
@@ -73,10 +59,8 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
     }
   };
 
-  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
   const setOpenEditModal = () => {
-    setIsAddTaskModalOpen(true);
     setIsElipsisMenuOpen(false);
   };
 
@@ -92,25 +76,26 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
     >
       {/* MODAL SECTION */}
 
-      <div className=" scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto  bg-white text-black font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8  py-8 rounded-xl">
+      <div className=" scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto  bg-[#1F1F1F] text-black font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8  py-8 rounded-xl">
         <div className=" relative flex   justify-between w-full items-center">
-          <h1 className=" text-lg">{task.title}</h1>
+          <h1 className="text-white text-lg">{task.title}</h1>
 
           <FaEllipsisV
             onClick={() => {
               setIsElipsisMenuOpen((prevState) => !prevState);
             }}
-            className=" cursor-pointer h-6 text-gray-600"
+            className=" cursor-pointer h-5 text-white"
           />
           {isElipsisMenuOpen && (
-            <ElipsisMenu
+            <TaskElipsisMenu
               setOpenEditModal={setOpenEditModal}
               setOpenDeleteModal={setOpenDeleteModal}
               type="Task"
+              taskId={taskId}
             />
           )}
         </div>
-        <p className=" text-gray-500 font-[600] tracking-wide text-xs pt-6">
+        <p className=" text-white text-base tracking-wide pt-6">
           {task.description}
         </p>
 
@@ -124,8 +109,8 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
           {subtasks.map((subtask, index) => {
             return (
               <Subtask
-                index={index}
-                taskIndex={taskIndex}
+                subtaskId={subtask.id}
+                taskId={taskId}
                 key={index}
               />
             );
@@ -139,7 +124,7 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
             Current Status
           </label>
           <select
-            className=" select-status flex-grow px-4 py-2 rounded-md text-sm bg-transparent focus:border-0  border-[1px] border-gray-300 focus:outline-[#635fc7] outline-none"
+            className="select-status flex-grow px-4 py-2 rounded-md text-sm text-gray-700  bg-transparent focus:border-0  border-[1px] border-gray-300 outline-none"
             value={status}
             onChange={(e)=>setStatus(e.target.value)}
           >
@@ -164,14 +149,6 @@ function TaskModal({ taskIndex, setIsTaskModalOpen }) {
         />
       )}
 
-      {isAddTaskModalOpen && (
-        <AddEditTaskModal
-          setIsAddTaskModalOpen={setIsAddTaskModalOpen}
-          setIsTaskModalOpen={setIsTaskModalOpen}
-          type="edit"
-          taskIndex={taskIndex}
-        />
-      )}
     </div>
   );
 }
