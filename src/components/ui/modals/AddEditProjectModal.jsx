@@ -54,7 +54,7 @@ function AddEditProjectModal({ setIsProjectModalOpen, type , }) {
             Project Name
           </label>
           <input
-            className="text-gray-200 bg-transparent  px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-1  ring-0 "
+            className="text-gray-200 bg-transparent  px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 ring-0 "
             value={name}
             onChange={(e) => setName(e.target.value)}
             id="project-name-input"
@@ -66,7 +66,7 @@ function AddEditProjectModal({ setIsProjectModalOpen, type , }) {
             onClick={() => {
               onSubmit(type);
             }}
-            className=" w-full items-center hover:opacity-70 mt-8 relative  text-white bg-[#4B0BD1] py-2 rounded-lg"
+            className=" w-full items-center hover:opacity-70 mt-8 relative  text-white bg-[#C38FFF] py-2 rounded-lg"
           >
             {type === "add" ? "Create" : "Save"}
           </button>
