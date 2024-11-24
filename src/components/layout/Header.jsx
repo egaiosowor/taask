@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { FaPlus } from "react-icons/fa";
 import { FaEllipsisV } from "react-icons/fa";
-import ElipsisMenu from "../ui/ElipsisMenu";
+import ProjectElipsisMenu from "../ui/ProjectElipsisMenu";
 import SidebarToggle from '../ui/sidebarToggle'
 
 import {
@@ -72,7 +72,7 @@ function Header({ setIsProjectModalOpen, isProjectModalOpen, onToggle }) {
                 className=" cursor-pointer h-5 text-white"
               />
               {isElipsisMenuOpen && (
-                <ElipsisMenu
+                <ProjectElipsisMenu
                   type="project"
                   setOpenEditModal={setOpenEditModal}
                   setOpenDeleteModal={setOpenDeleteModal}
