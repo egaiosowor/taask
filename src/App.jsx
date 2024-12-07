@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Layout from "./components/layout/Layout"; // Include the Layout
 import Home from "./components/pages/Home";
-import CreateTaskPage from "./components/pages/createTaskPage";
+import CreateTaskPage from "./components/pages/CreateTaskPage";
 import EditTaskPage from "./components/pages/EditTaskPage";
 import projectsSlice from "./redux/projectsSlice";
 
